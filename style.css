@@ -70,7 +70,7 @@ body {
 
     padding: 22px 6%;
 
-    background: var(--white);
+    background: var(--red);
 
     border-bottom: 4px solid var(--blue);
 }
