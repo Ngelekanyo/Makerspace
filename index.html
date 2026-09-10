@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MakerSpace OS</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <div class="brand">
+            <span class="brand-mark">⚙</span>
+            <div>
+                <h1>MakerSpace OS</h1>
+                <p>Digital MakerSpace Management</p>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="container">
+
+        <!-- HERO -->
+        <section class="hero">
+            <p class="eyebrow">WELCOME TO THE MAKERSPACE</p>
+
+            <h2>Build. Learn. Document.</h2>
+
+            <p>
+                Record your visit, log your work and document what you're building.
+            </p>
+        </section>
+
+
+        <!-- MAIN ACTIONS -->
+        <section class="actions">
+
+            <button class="action-card" onclick="showPage('checkin')">
+                <div class="action-icon">✓</div>
+
+                <div>
+                    <h3>Check In</h3>
+                    <p>Record your MakerSpace visit.</p>
+                </div>
+
+                <span class="arrow">→</span>
+            </button>
+
+
+            <button class="action-card" onclick="showPage('usage')">
+                <div class="action-icon">⚙</div>
+
+                <div>
+                    <h3>Usage Record</h3>
+                    <p>Log equipment and work performed.</p>
+                </div>
+
+                <span class="arrow">→</span>
+            </button>
+
+
+            <button class="action-card" onclick="showPage('project')">
+                <div class="action-icon">＋</div>
+
+                <div>
+                    <h3>Document Project</h3>
+                    <p>Create a record of something you're building.</p>
+                </div>
+
+                <span class="arrow">→</span>
+            </button>
+
+        </section>
+
+
+        <!-- CHECK IN -->
+        <section id="checkin" class="form-page hidden">
+
+            <button class="back-button" onclick="showPage('home')">
+                ← Back
+            </button>
+
+            <div class="form-header">
+                <p class="eyebrow">MAKERSPACE VISIT</p>
+                <h2>Check In</h2>
+                <p>Let us know you're here.</p>
+            </div>
+
+
+            <form id="checkinForm">
+
+                <label>
+                    Full Name
+                    <input
+                        type="text"
+                        id="checkinName"
+                        placeholder="Enter your name"
+                        required
+                    >
+                </label>
+
+
+                <label>
+                    Student Number
+                    <input
+                        type="text"
+                        id="checkinStudentNumber"
+                        placeholder="e.g. ABC1234"
+                        required
+                    >
+                </label>
+
+
+                <label>
+                    What are you doing today?
+
+                    <select id="checkinActivity" required>
+                        <option value="">Select an activity</option>
+                        <option>3D Printing</option>
+                        <option>3D Scanning</option>
+                        <option>Laser Cutting</option>
+                        <option>Electronics</option>
+                        <option>CAD / Design</option>
+                        <option>Project Work</option>
+                        <option>Learning / Training</option>
+                        <option>Other</option>
+                    </select>
+                </label>
+
+
+                <label>
+                    Optional Note
+
+                    <textarea
+                        id="checkinNote"
+                        placeholder="What are you working on?"
+                    ></textarea>
+                </label>
+
+
+                <button class="primary-button" type="submit">
+                    Check In
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- USAGE -->
+        <section id="usage" class="form-page hidden">
+
+            <button class="back-button" onclick="showPage('home')">
+                ← Back
+            </button>
+
+            <div class="form-header">
+                <p class="eyebrow">USAGE LOG</p>
+                <h2>Record Usage</h2>
+                <p>Keep track of what you used and what you did.</p>
+            </div>
+
+
+            <form id="usageForm">
+
+                <label>
+                    Full Name
+                    <input
+                        type="text"
+                        id="usageName"
+                        placeholder="Enter your name"
+                        required
+                    >
+                </label>
+
+
+                <label>
+                    Student Number
+                    <input
+                        type="text"
+                        id="usageStudentNumber"
+                        placeholder="e.g. ABC1234"
+                        required
+                    >
+                </label>
+
+
+                <label>
+                    Equipment / Resource
+
+                    <select id="usageEquipment" required>
+                        <option value="">Select equipment</option>
+                        <option>3D Printer</option>
+                        <option>3D Scanner</option>
+                        <option>Laser Cutter</option>
+                        <option>Electronics Bench</option>
+                        <option>Soldering Station</option>
+                        <option>CAD Workstation</option>
+                        <option>Hand Tools</option>
+                        <option>Other</option>
+                    </select>
+                </label>
+
+
+                <label>
+                    What did you do?
+
+                    <textarea
+                        id="usageDescription"
+                        placeholder="Describe the work you performed..."
+                        required
+                    ></textarea>
+                </label>
+
+
+                <label>
+                    Duration
+
+                    <select id="usageDuration" required>
+                        <option value="">Select duration</option>
+                        <option>Under 30 minutes</option>
+                        <option>30–60 minutes</option>
+                        <option>1–2 hours</option>
+                        <option>2–4 hours</option>
+                        <option>4+ hours</option>
+                    </select>
+                </label>
+
+
+                <button class="primary-button" type="submit">
+                    Save Usage Record
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- PROJECT DOCUMENTATION -->
+        <section id="project" class="form-page hidden">
+
+            <button class="back-button" onclick="showPage('home')">
+                ← Back
+            </button>
+
+            <div class="form-header">
+                <p class="eyebrow">PROJECT DOCUMENTATION</p>
+                <h2>Document a Project</h2>
+                <p>Create a record of what you're building.</p>
+            </div>
+
+
+            <form id="projectForm">
+
+                <label>
+                    Project Name
+
+                    <input
+                        type="text"
+                        id="projectName"
+                        placeholder="e.g. Smart Plant Monitor"
+                        required
+                    >
+                </label>
+
+
+                <label>
+                    Your Name
+
+                    <input
+                        type="text"
+                        id="projectStudent"
+                        placeholder="Enter your name"
+                        required
+                    >
+                </label>
+
+
+                <label>
+                    Project Category
+
+                    <select id="projectCategory" required>
+                        <option value="">Select category</option>
+                        <option>Electronics</option>
+                        <option>Robotics</option>
+                        <option>3D Printing</option>
+                        <option>CAD / Design</option>
+                        <option>Mechanical</option>
+                        <option>Software</option>
+                        <option>Other</option>
+                    </select>
+                </label>
+
+
+                <label>
+                    What are you trying to build?
+
+                    <textarea
+                        id="projectObjective"
+                        placeholder="Describe the goal of your project..."
+                        required
+                    ></textarea>
+                </label>
+
+
+                <label>
+                    What did you work on?
+
+                    <textarea
+                        id="projectWork"
+                        placeholder="Describe what you did..."
+                        required
+                    ></textarea>
+                </label>
+
+
+                <label>
+                    Problems / Challenges
+
+                    <textarea
+                        id="projectProblems"
+                        placeholder="What went wrong or proved difficult?"
+                    ></textarea>
+                </label>
+
+
+                <label>
+                    What did you learn?
+
+                    <textarea
+                        id="projectLessons"
+                        placeholder="What did you learn from the process?"
+                    ></textarea>
+                </label>
+
+
+                <label>
+                    Next Steps
+
+                    <textarea
+                        id="projectNextSteps"
+                        placeholder="What are you going to do next?"
+                    ></textarea>
+                </label>
+
+
+                <button class="primary-button" type="submit">
+                    Save Project
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- SUCCESS MESSAGE -->
+        <section id="success" class="success-page hidden">
+
+            <div class="success-icon">✓</div>
+
+            <h2 id="successTitle">Saved!</h2>
+
+            <p id="successMessage">
+                Your information has been recorded.
+            </p>
+
+            <button
+                class="primary-button"
+                onclick="showPage('home')"
+            >
+                Return Home
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>MakerSpace OS · Phase 1</p>
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>
