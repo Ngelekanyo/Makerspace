@@ -1,4 +1,3 @@
-```javascript
 /*
  * MakerSpace OS
  * Phase 1
@@ -303,4 +302,3 @@ document
         this.reset();
 
     });
-```
