@@ -1,159 +1,123 @@
-/*
- * MakerSpace OS
- * Phase 1
- *
- * Frontend application logic.
- *
- * IMPORTANT:
- * Replace GOOGLE_SCRIPT_URL with your deployed
- * Google Apps Script Web App URL.
- */
+/* =========================================================
+   MAKERSPACE*
+   Frontend controller
+   Phase 1
+   ========================================================= */
 
 
-const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
+
+const pages = [
+    "home",
+    "checkin",
+    "usage",
+    "project",
+    "about",
+    "projects",
+    "success"
+];
 
 
-// ============================================
-// PAGE NAVIGATION
-// ============================================
+function hideAllPages() {
 
-function showPage(page) {
+    pages.forEach(function (pageID) {
 
-    const pages = [
-        "checkin",
-        "usage",
-        "project",
-        "success"
-    ];
+        const page = document.getElementById(pageID);
 
-    pages.forEach(id => {
-        const element = document.getElementById(id);
+        if (page) {
 
-        if (element) {
-            element.classList.add("hidden");
+            page.classList.remove("active");
+
         }
+
     });
 
+}
 
-    if (page === "home") {
 
-        document.querySelector(".hero").classList.remove("hidden");
+/* =========================================================
+   SHOW SECTION
+   ========================================================= */
 
-        document.querySelector(".actions").classList.remove("hidden");
+function showSection(sectionID) {
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+    hideAllPages();
 
-        return;
+    const section = document.getElementById(sectionID);
+
+    if (section) {
+
+        section.classList.add("active");
+
     }
 
-
-    document.querySelector(".hero").classList.add("hidden");
-
-    document.querySelector(".actions").classList.add("hidden");
-
-
-    const selectedPage = document.getElementById(page);
-
-    if (selectedPage) {
-        selectedPage.classList.remove("hidden");
-    }
-
+    closeMenu();
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
+
 }
 
 
-// ============================================
-// SEND DATA TO GOOGLE APPS SCRIPT
-// ============================================
+/* =========================================================
+   HOME
+   ========================================================= */
 
-async function sendData(data) {
+function showHome() {
 
-    /*
-     * During development, you can use the
-     * console to check exactly what is being sent.
-     */
+    showSection("home");
 
-    console.log("Sending data:", data);
-
-
-    if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
-
-        console.warn(
-            "Google Apps Script URL has not been configured."
-        );
-
-        showSuccess(
-            "Demo Saved",
-            "The form works, but the Google backend has not been connected yet."
-        );
-
-        return;
-    }
-
-
-    try {
-
-        await fetch(GOOGLE_SCRIPT_URL, {
-
-            method: "POST",
-
-            mode: "no-cors",
-
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
-
-            body: JSON.stringify(data)
-
-        });
-
-
-        showSuccess(
-            "Saved!",
-            "Your information has been recorded successfully."
-        );
-
-    }
-
-    catch (error) {
-
-        console.error("Error:", error);
-
-        alert(
-            "Something went wrong while saving your information. Please try again."
-        );
-    }
 }
 
 
-// ============================================
-// SUCCESS MESSAGE
-// ============================================
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
 
-function showSuccess(title, message) {
+function toggleMenu() {
 
-    document.getElementById("successTitle").textContent = title;
+    const nav = document.getElementById("mainNav");
 
-    document.getElementById("successMessage").textContent = message;
+    nav.classList.toggle("open");
 
-    showPage("success");
 }
 
 
-// ============================================
-// CHECK-IN FORM
-// ============================================
+function closeMenu() {
+
+    const nav = document.getElementById("mainNav");
+
+    nav.classList.remove("open");
+
+}
+
+
+/* =========================================================
+   SUCCESS
+   ========================================================= */
+
+function showSuccess(message) {
+
+    document.getElementById(
+        "successMessage"
+    ).textContent = message;
+
+    showSection("success");
+
+}
+
+
+/* =========================================================
+   CHECK-IN
+   ========================================================= */
 
 document
     .getElementById("checkinForm")
-    .addEventListener("submit", function(event) {
+    .addEventListener("submit", function (event) {
 
         event.preventDefault();
 
@@ -163,20 +127,27 @@ document
             type: "checkin",
 
             name:
-                document.getElementById("checkinName").value.trim(),
+                document
+                    .getElementById("checkinName")
+                    .value
+                    .trim(),
 
             studentNumber:
                 document
                     .getElementById("checkinStudentNumber")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             activity:
-                document.getElementById("checkinActivity").value,
+                document
+                    .getElementById("checkinActivity")
+                    .value,
 
             note:
                 document
                     .getElementById("checkinNote")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             timestamp:
                 new Date().toISOString()
@@ -184,20 +155,36 @@ document
         };
 
 
-        sendData(data);
+        /*
+         * For now we only print the data.
+         *
+         * Google Apps Script will be connected
+         * here in the next phase.
+         */
+
+        console.log(
+            "CHECK-IN:",
+            data
+        );
+
+
+        showSuccess(
+            "You're checked in. Your visit has been recorded."
+        );
+
 
         this.reset();
 
     });
 
 
-// ============================================
-// USAGE FORM
-// ============================================
+/* =========================================================
+   USAGE
+   ========================================================= */
 
 document
     .getElementById("usageForm")
-    .addEventListener("submit", function(event) {
+    .addEventListener("submit", function (event) {
 
         event.preventDefault();
 
@@ -207,23 +194,32 @@ document
             type: "usage",
 
             name:
-                document.getElementById("usageName").value.trim(),
+                document
+                    .getElementById("usageName")
+                    .value
+                    .trim(),
 
             studentNumber:
                 document
                     .getElementById("usageStudentNumber")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             equipment:
-                document.getElementById("usageEquipment").value,
+                document
+                    .getElementById("usageEquipment")
+                    .value,
 
             description:
                 document
                     .getElementById("usageDescription")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             duration:
-                document.getElementById("usageDuration").value,
+                document
+                    .getElementById("usageDuration")
+                    .value,
 
             timestamp:
                 new Date().toISOString()
@@ -231,20 +227,29 @@ document
         };
 
 
-        sendData(data);
+        console.log(
+            "USAGE:",
+            data
+        );
+
+
+        showSuccess(
+            "Usage recorded. Thanks for helping us understand the MakerSpace."
+        );
+
 
         this.reset();
 
     });
 
 
-// ============================================
-// PROJECT FORM
-// ============================================
+/* =========================================================
+   PROJECT DOCUMENTATION
+   ========================================================= */
 
 document
     .getElementById("projectForm")
-    .addEventListener("submit", function(event) {
+    .addEventListener("submit", function (event) {
 
         event.preventDefault();
 
@@ -256,40 +261,49 @@ document
             projectName:
                 document
                     .getElementById("projectName")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             student:
                 document
                     .getElementById("projectStudent")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             category:
-                document.getElementById("projectCategory").value,
+                document
+                    .getElementById("projectCategory")
+                    .value,
 
             objective:
                 document
                     .getElementById("projectObjective")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             work:
                 document
                     .getElementById("projectWork")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             problems:
                 document
                     .getElementById("projectProblems")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             lessons:
                 document
                     .getElementById("projectLessons")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             nextSteps:
                 document
                     .getElementById("projectNextSteps")
-                    .value.trim(),
+                    .value
+                    .trim(),
 
             timestamp:
                 new Date().toISOString()
@@ -297,8 +311,31 @@ document
         };
 
 
-        sendData(data);
+        console.log(
+            "PROJECT:",
+            data
+        );
+
+
+        showSuccess(
+            "Project saved. Keep building."
+        );
+
 
         this.reset();
 
     });
+
+
+/* =========================================================
+   INITIALISE
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        showHome();
+
+    }
+);
