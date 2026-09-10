@@ -1,378 +1,890 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MakerSpace*</title>
+    <title>MakerSpace* | d-school Afrika</title>
+
+    <meta
+        name="description"
+        content="Digital MakerSpace management and project documentation system."
+    >
 
     <link rel="stylesheet" href="style.css">
 </head>
 
+
 <body>
 
-    <header class="topbar">
-        <div class="brand">
-            <span class="brand-mark">⚙</span>
-            <div>
-                <h1>MakerSpace*</h1>
-                <p>Digital MakerSpace Management</p>
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="site-header">
+
+        <a href="#" class="logo" onclick="showHome()">
+
+            <div class="logo-mark">
+                *
             </div>
-        </div>
+
+            <div class="logo-text">
+                <strong>MakerSpace</strong>
+                <span>d-school Afrika</span>
+            </div>
+
+        </a>
+
+
+        <button
+            class="menu-button"
+            onclick="toggleMenu()"
+            aria-label="Open menu"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+
+        <nav id="mainNav">
+
+            <a href="#home" onclick="showHome()">HOME</a>
+
+            <a href="#about" onclick="showSection('about')">
+                ABOUT
+            </a>
+
+            <a href="#projects" onclick="showSection('projects')">
+                PROJECTS
+            </a>
+
+        </nav>
+
     </header>
 
 
-    <main class="container">
 
-        <!-- HERO -->
-        <section class="hero">
-            <p class="eyebrow">WELCOME TO THE MAKERSPACE</p>
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
 
-            <h2>Build. Learn. Document.</h2>
+    <main id="app">
+
+
+        <!-- =================================================
+             HOME
+             ================================================= -->
+
+        <section id="home" class="page active">
+
+
+            <!-- HERO -->
+
+            <div class="hero">
+
+                <div class="hero-content">
+
+                    <p class="kicker">
+                        MAKERSPACE*
+                    </p>
+
+                    <h1>
+                        MAKE<br>
+                        SOMETHING
+                        <span>REAL.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        A digital home for the people,
+                        projects and experiments happening
+                        in the MakerSpace.
+                    </p>
+
+                </div>
+
+
+                <div class="hero-shape">
+
+                    <div class="shape-circle"></div>
+
+                    <div class="shape-square"></div>
+
+                    <div class="shape-star">
+                        *
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- INTRO -->
+
+            <section class="intro-section">
+
+                <div class="section-number">
+                    01
+                </div>
+
+                <div class="intro-content">
+
+                    <p class="kicker">
+                        LEARNING THROUGH DOING
+                    </p>
+
+                    <h2>
+                        Don't just think about it.
+                        <em>Make it.</em>
+                    </h2>
+
+                    <p>
+                        The MakerSpace is a place to experiment,
+                        prototype, fail, learn and try again.
+                        MakerSpace* helps us keep track of
+                        the things we make and the things we learn
+                        along the way.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ACTIONS -->
+
+            <section class="actions-section">
+
+                <div class="section-heading">
+
+                    <p class="kicker">
+                        WHAT ARE YOU HERE TO DO?
+                    </p>
+
+                    <h2>
+                        LET'S GET
+                        <span>MAKING.</span>
+                    </h2>
+
+                </div>
+
+
+                <div class="action-grid">
+
+
+                    <!-- CHECK IN -->
+
+                    <button
+                        class="action-card blue"
+                        onclick="showSection('checkin')"
+                    >
+
+                        <div class="card-number">
+                            01
+                        </div>
+
+                        <div class="card-icon">
+                            →
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                CHECK IN
+                            </h3>
+
+                            <p>
+                                Let us know you're here
+                                and what you're working on.
+                            </p>
+
+                        </div>
+
+                        <div class="card-arrow">
+                            ↗
+                        </div>
+
+                    </button>
+
+
+
+                    <!-- USAGE -->
+
+                    <button
+                        class="action-card yellow"
+                        onclick="showSection('usage')"
+                    >
+
+                        <div class="card-number">
+                            02
+                        </div>
+
+                        <div class="card-icon">
+                            +
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                LOG USAGE
+                            </h3>
+
+                            <p>
+                                Record the equipment,
+                                tools and resources you use.
+                            </p>
+
+                        </div>
+
+                        <div class="card-arrow">
+                            ↗
+                        </div>
+
+                    </button>
+
+
+
+                    <!-- PROJECT -->
+
+                    <button
+                        class="action-card dark"
+                        onclick="showSection('project')"
+                    >
+
+                        <div class="card-number">
+                            03
+                        </div>
+
+                        <div class="card-icon">
+                            *
+                        </div>
+
+                        <div class="card-content">
+
+                            <h3>
+                                DOCUMENT
+                            </h3>
+
+                            <p>
+                                Capture your project,
+                                process, problems and learning.
+                            </p>
+
+                        </div>
+
+                        <div class="card-arrow">
+                            ↗
+                        </div>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- STATEMENT -->
+
+            <section class="statement-section">
+
+                <p>
+                    IDEAS BECOME REAL<br>
+                    WHEN WE
+                    <span>BUILD.</span>
+                </p>
+
+            </section>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             CHECK IN
+             ================================================= -->
+
+        <section id="checkin" class="page form-page">
+
+            <div class="form-layout">
+
+                <div class="form-intro">
+
+                    <p class="kicker">
+                        MAKERSPACE* / 01
+                    </p>
+
+                    <h2>
+                        YOU'RE
+                        <span>HERE.</span>
+                    </h2>
+
+                    <p>
+                        Check in before you start making.
+                        It helps us understand how the
+                        MakerSpace is being used.
+                    </p>
+
+                </div>
+
+
+                <form id="checkinForm">
+
+                    <label>
+                        FULL NAME
+
+                        <input
+                            type="text"
+                            id="checkinName"
+                            placeholder="Your name"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+                        STUDENT / STAFF NUMBER
+
+                        <input
+                            type="text"
+                            id="checkinStudentNumber"
+                            placeholder="Your number"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+                        WHAT ARE YOU DOING TODAY?
+
+                        <select
+                            id="checkinActivity"
+                            required
+                        >
+
+                            <option value="">
+                                Select one
+                            </option>
+
+                            <option>
+                                3D Printing
+                            </option>
+
+                            <option>
+                                3D Scanning
+                            </option>
+
+                            <option>
+                                Laser Cutting
+                            </option>
+
+                            <option>
+                                Electronics
+                            </option>
+
+                            <option>
+                                CAD / Design
+                            </option>
+
+                            <option>
+                                Project Work
+                            </option>
+
+                            <option>
+                                Learning / Training
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label>
+                        WHAT ARE YOU WORKING ON?
+
+                        <textarea
+                            id="checkinNote"
+                            placeholder="Optional — tell us what you're making..."
+                        ></textarea>
+
+                    </label>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        CHECK IN
+                        <span>↗</span>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             USAGE
+             ================================================= -->
+
+        <section id="usage" class="page form-page">
+
+            <div class="form-layout">
+
+                <div class="form-intro">
+
+                    <p class="kicker">
+                        MAKERSPACE* / 02
+                    </p>
+
+                    <h2>
+                        WHAT DID
+                        YOU <span>USE?</span>
+                    </h2>
+
+                    <p>
+                        Record what you used and what you
+                        did. This helps us understand the
+                        tools and equipment that enable
+                        your work.
+                    </p>
+
+                </div>
+
+
+                <form id="usageForm">
+
+
+                    <label>
+                        YOUR NAME
+
+                        <input
+                            type="text"
+                            id="usageName"
+                            placeholder="Your name"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+                        STUDENT / STAFF NUMBER
+
+                        <input
+                            type="text"
+                            id="usageStudentNumber"
+                            placeholder="Your number"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+                        EQUIPMENT / RESOURCE
+
+                        <select
+                            id="usageEquipment"
+                            required
+                        >
+
+                            <option value="">
+                                Select equipment
+                            </option>
+
+                            <option>
+                                3D Printer
+                            </option>
+
+                            <option>
+                                3D Scanner
+                            </option>
+
+                            <option>
+                                Laser Cutter
+                            </option>
+
+                            <option>
+                                Electronics Bench
+                            </option>
+
+                            <option>
+                                Soldering Station
+                            </option>
+
+                            <option>
+                                CAD Workstation
+                            </option>
+
+                            <option>
+                                Hand Tools
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label>
+                        WHAT DID YOU DO?
+
+                        <textarea
+                            id="usageDescription"
+                            placeholder="Describe the work you performed..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+                        HOW LONG?
+
+                        <select
+                            id="usageDuration"
+                            required
+                        >
+
+                            <option value="">
+                                Select duration
+                            </option>
+
+                            <option>
+                                Under 30 minutes
+                            </option>
+
+                            <option>
+                                30–60 minutes
+                            </option>
+
+                            <option>
+                                1–2 hours
+                            </option>
+
+                            <option>
+                                2–4 hours
+                            </option>
+
+                            <option>
+                                4+ hours
+                            </option>
+
+                        </select>
+
+                    </label>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        SAVE USAGE
+                        <span>↗</span>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PROJECT DOCUMENTATION
+             ================================================= -->
+
+        <section id="project" class="page form-page">
+
+            <div class="form-layout">
+
+                <div class="form-intro">
+
+                    <p class="kicker">
+                        MAKERSPACE* / 03
+                    </p>
+
+                    <h2>
+                        TELL THE
+                        <span>STORY.</span>
+                    </h2>
+
+                    <p>
+                        Good making isn't only about the
+                        final object. Document the process,
+                        the failures and what you learned.
+                    </p>
+
+                </div>
+
+
+                <form id="projectForm">
+
+
+                    <label>
+                        PROJECT NAME
+
+                        <input
+                            type="text"
+                            id="projectName"
+                            placeholder="What are you building?"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+                        YOUR NAME
+
+                        <input
+                            type="text"
+                            id="projectStudent"
+                            placeholder="Your name"
+                            required
+                        >
+
+                    </label>
+
+
+                    <label>
+                        PROJECT CATEGORY
+
+                        <select
+                            id="projectCategory"
+                            required
+                        >
+
+                            <option value="">
+                                Select category
+                            </option>
+
+                            <option>
+                                Electronics
+                            </option>
+
+                            <option>
+                                Robotics
+                            </option>
+
+                            <option>
+                                3D Printing
+                            </option>
+
+                            <option>
+                                CAD / Design
+                            </option>
+
+                            <option>
+                                Mechanical
+                            </option>
+
+                            <option>
+                                Software
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </label>
+
+
+                    <label>
+                        WHAT ARE YOU TRYING TO BUILD?
+
+                        <textarea
+                            id="projectObjective"
+                            placeholder="Describe the goal of your project..."
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+                        WHAT DID YOU WORK ON?
+
+                        <textarea
+                            id="projectWork"
+                            placeholder="What did you actually do?"
+                            required
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+                        WHAT WENT WRONG?
+
+                        <textarea
+                            id="projectProblems"
+                            placeholder="Failures, challenges, unexpected results..."
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+                        WHAT DID YOU LEARN?
+
+                        <textarea
+                            id="projectLessons"
+                            placeholder="What did the process teach you?"
+                        ></textarea>
+
+                    </label>
+
+
+                    <label>
+                        WHAT'S NEXT?
+
+                        <textarea
+                            id="projectNextSteps"
+                            placeholder="What will you try next?"
+                        ></textarea>
+
+                    </label>
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        SAVE PROJECT
+                        <span>↗</span>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ABOUT
+             ================================================= -->
+
+        <section id="about" class="page content-page">
+
+            <p class="kicker">
+                ABOUT MAKERSPACE*
+            </p>
+
+            <h2>
+                A PLACE TO
+                <span>MAKE.</span>
+            </h2>
 
             <p>
-                Record your visit, log your work and document what you're building.
+                MakerSpace* is the digital layer of the
+                MakerSpace at the Hasso Plattner d-school
+                Afrika.
             </p>
-        </section>
 
+            <p>
+                It exists to help us understand what people
+                are making, what tools they are using and
+                what they are learning through the process.
+            </p>
 
-        <!-- MAIN ACTIONS -->
-        <section class="actions">
-
-            <button class="action-card" onclick="showPage('checkin')">
-                <div class="action-icon">✓</div>
-
-                <div>
-                    <h3>Check In</h3>
-                    <p>Record your MakerSpace visit.</p>
-                </div>
-
-                <span class="arrow">→</span>
-            </button>
-
-
-            <button class="action-card" onclick="showPage('usage')">
-                <div class="action-icon">⚙</div>
-
-                <div>
-                    <h3>Usage Record</h3>
-                    <p>Log equipment and work performed.</p>
-                </div>
-
-                <span class="arrow">→</span>
-            </button>
-
-
-            <button class="action-card" onclick="showPage('project')">
-                <div class="action-icon">＋</div>
-
-                <div>
-                    <h3>Document Project</h3>
-                    <p>Create a record of something you're building.</p>
-                </div>
-
-                <span class="arrow">→</span>
+            <button
+                class="text-button"
+                onclick="showHome()"
+            >
+                ← BACK HOME
             </button>
 
         </section>
 
 
-        <!-- CHECK IN -->
-        <section id="checkin" class="form-page hidden">
 
-            <button class="back-button" onclick="showPage('home')">
-                ← Back
-            </button>
+        <!-- =================================================
+             PROJECTS
+             ================================================= -->
 
-            <div class="form-header">
-                <p class="eyebrow">MAKERSPACE VISIT</p>
-                <h2>Check In</h2>
-                <p>Let us know you're here.</p>
+        <section id="projects" class="page content-page">
+
+            <p class="kicker">
+                MAKERSPACE* / PROJECTS
+            </p>
+
+            <h2>
+                WHAT ARE
+                PEOPLE <span>MAKING?</span>
+            </h2>
+
+            <p>
+                Project discovery will live here in a
+                future version of MakerSpace*.
+            </p>
+
+            <div class="coming-soon">
+                COMING SOON *
             </div>
 
-
-            <form id="checkinForm">
-
-                <label>
-                    Full Name
-                    <input
-                        type="text"
-                        id="checkinName"
-                        placeholder="Enter your name"
-                        required
-                    >
-                </label>
-
-
-                <label>
-                    Student Number
-                    <input
-                        type="text"
-                        id="checkinStudentNumber"
-                        placeholder="e.g. ABC1234"
-                        required
-                    >
-                </label>
-
-
-                <label>
-                    What are you doing today?
-
-                    <select id="checkinActivity" required>
-                        <option value="">Select an activity</option>
-                        <option>3D Printing</option>
-                        <option>3D Scanning</option>
-                        <option>Laser Cutting</option>
-                        <option>Electronics</option>
-                        <option>CAD / Design</option>
-                        <option>Project Work</option>
-                        <option>Learning / Training</option>
-                        <option>Other</option>
-                    </select>
-                </label>
-
-
-                <label>
-                    Optional Note
-
-                    <textarea
-                        id="checkinNote"
-                        placeholder="What are you working on?"
-                    ></textarea>
-                </label>
-
-
-                <button class="primary-button" type="submit">
-                    Check In
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <!-- USAGE -->
-        <section id="usage" class="form-page hidden">
-
-            <button class="back-button" onclick="showPage('home')">
-                ← Back
+            <button
+                class="text-button"
+                onclick="showHome()"
+            >
+                ← BACK HOME
             </button>
 
-            <div class="form-header">
-                <p class="eyebrow">USAGE LOG</p>
-                <h2>Record Usage</h2>
-                <p>Keep track of what you used and what you did.</p>
-            </div>
-
-
-            <form id="usageForm">
-
-                <label>
-                    Full Name
-                    <input
-                        type="text"
-                        id="usageName"
-                        placeholder="Enter your name"
-                        required
-                    >
-                </label>
-
-
-                <label>
-                    Student Number
-                    <input
-                        type="text"
-                        id="usageStudentNumber"
-                        placeholder="e.g. ABC1234"
-                        required
-                    >
-                </label>
-
-
-                <label>
-                    Equipment / Resource
-
-                    <select id="usageEquipment" required>
-                        <option value="">Select equipment</option>
-                        <option>3D Printer</option>
-                        <option>3D Scanner</option>
-                        <option>Laser Cutter</option>
-                        <option>Electronics Bench</option>
-                        <option>Soldering Station</option>
-                        <option>CAD Workstation</option>
-                        <option>Hand Tools</option>
-                        <option>Other</option>
-                    </select>
-                </label>
-
-
-                <label>
-                    What did you do?
-
-                    <textarea
-                        id="usageDescription"
-                        placeholder="Describe the work you performed..."
-                        required
-                    ></textarea>
-                </label>
-
-
-                <label>
-                    Duration
-
-                    <select id="usageDuration" required>
-                        <option value="">Select duration</option>
-                        <option>Under 30 minutes</option>
-                        <option>30–60 minutes</option>
-                        <option>1–2 hours</option>
-                        <option>2–4 hours</option>
-                        <option>4+ hours</option>
-                    </select>
-                </label>
-
-
-                <button class="primary-button" type="submit">
-                    Save Usage Record
-                </button>
-
-            </form>
-
         </section>
 
 
-        <!-- PROJECT DOCUMENTATION -->
-        <section id="project" class="form-page hidden">
 
-            <button class="back-button" onclick="showPage('home')">
-                ← Back
-            </button>
+        <!-- =================================================
+             SUCCESS
+             ================================================= -->
 
-            <div class="form-header">
-                <p class="eyebrow">PROJECT DOCUMENTATION</p>
-                <h2>Document a Project</h2>
-                <p>Create a record of what you're building.</p>
+        <section id="success" class="page success-page">
+
+            <div class="success-star">
+                *
             </div>
 
+            <p class="kicker">
+                MAKERSPACE*
+            </p>
 
-            <form id="projectForm">
-
-                <label>
-                    Project Name
-
-                    <input
-                        type="text"
-                        id="projectName"
-                        placeholder="e.g. Smart Plant Monitor"
-                        required
-                    >
-                </label>
-
-
-                <label>
-                    Your Name
-
-                    <input
-                        type="text"
-                        id="projectStudent"
-                        placeholder="Enter your name"
-                        required
-                    >
-                </label>
-
-
-                <label>
-                    Project Category
-
-                    <select id="projectCategory" required>
-                        <option value="">Select category</option>
-                        <option>Electronics</option>
-                        <option>Robotics</option>
-                        <option>3D Printing</option>
-                        <option>CAD / Design</option>
-                        <option>Mechanical</option>
-                        <option>Software</option>
-                        <option>Other</option>
-                    </select>
-                </label>
-
-
-                <label>
-                    What are you trying to build?
-
-                    <textarea
-                        id="projectObjective"
-                        placeholder="Describe the goal of your project..."
-                        required
-                    ></textarea>
-                </label>
-
-
-                <label>
-                    What did you work on?
-
-                    <textarea
-                        id="projectWork"
-                        placeholder="Describe what you did..."
-                        required
-                    ></textarea>
-                </label>
-
-
-                <label>
-                    Problems / Challenges
-
-                    <textarea
-                        id="projectProblems"
-                        placeholder="What went wrong or proved difficult?"
-                    ></textarea>
-                </label>
-
-
-                <label>
-                    What did you learn?
-
-                    <textarea
-                        id="projectLessons"
-                        placeholder="What did you learn from the process?"
-                    ></textarea>
-                </label>
-
-
-                <label>
-                    Next Steps
-
-                    <textarea
-                        id="projectNextSteps"
-                        placeholder="What are you going to do next?"
-                    ></textarea>
-                </label>
-
-
-                <button class="primary-button" type="submit">
-                    Save Project
-                </button>
-
-            </form>
-
-        </section>
-
-
-        <!-- SUCCESS MESSAGE -->
-        <section id="success" class="success-page hidden">
-
-            <div class="success-icon">✓</div>
-
-            <h2 id="successTitle">Saved!</h2>
+            <h2>
+                DONE.
+            </h2>
 
             <p id="successMessage">
                 Your information has been recorded.
             </p>
 
             <button
-                class="primary-button"
-                onclick="showPage('home')"
+                class="submit-button"
+                onclick="showHome()"
             >
-                Return Home
+                BACK TO MAKERSPACE
+                <span>↗</span>
             </button>
 
         </section>
@@ -380,12 +892,28 @@
     </main>
 
 
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
     <footer>
-        <p>MakerSpace OS · Phase 1</p>
+
+        <div>
+            <strong>MakerSpace*</strong>
+            <span>Hasso Plattner d-school Afrika</span>
+        </div>
+
+        <p>
+            BUILD · EXPERIMENT · LEARN
+        </p>
+
     </footer>
+
 
 
     <script src="app.js"></script>
 
 </body>
+
 </html>
