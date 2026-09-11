@@ -9,9 +9,7 @@
  * Google Apps Script Web App URL.
  */
 
-
-const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
-
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8XpixqbZYjwBQjkuxG9gWSwGkiQ5d_DMY33WPIJwty4RrcQE4a6DzhuDw9QK1Xs2y/exec" ;
 
 // ============================================
 // PAGE NAVIGATION
@@ -75,61 +73,153 @@ function showPage(page) {
 
 async function sendData(data) {
 
+    console.log(
+        "Sending to MakerSpace backend:",
+        data
+    );
+
+
     /*
-     * During development, you can use the
-     * console to check exactly what is being sent.
+     * Make sure the backend URL exists.
      */
 
-    console.log("Sending data:", data);
+    if (
+        !GOOGLE_SCRIPT_URL ||
+        GOOGLE_SCRIPT_URL ===
+        "PASTE_YOUR_WEB_APP_URL_HERE"
+    ) {
 
-
-    if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
-
-        console.warn(
+        console.error(
             "Google Apps Script URL has not been configured."
         );
 
         showSuccess(
-            "Demo Saved",
-            "The form works, but the Google backend has not been connected yet."
+            "Demo Mode",
+            "The backend has not been connected yet."
         );
 
         return;
+
     }
 
 
     try {
 
-        await fetch(GOOGLE_SCRIPT_URL, {
+        /*
+         * Apps Script Web Apps can receive
+         * the request using a POST.
+         *
+         * We use no-cors because the browser
+         * cannot directly read the Apps Script
+         * response.
+         */
 
-            method: "POST",
+        await fetch(
+            GOOGLE_SCRIPT_URL,
+            {
 
-            mode: "no-cors",
+                method: "POST",
 
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
+                mode: "no-cors",
 
-            body: JSON.stringify(data)
+                headers: {
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
 
-        });
+                body:
+                    JSON.stringify(data)
 
+            }
+        );
+
+
+        /*
+         * The request was sent.
+         */
 
         showSuccess(
             "Saved!",
-            "Your information has been recorded successfully."
+            getSuccessMessage(data.type)
         );
 
     }
+
 
     catch (error) {
 
-        console.error("Error:", error);
-
-        alert(
-            "Something went wrong while saving your information. Please try again."
+        console.error(
+            "MakerSpace backend error:",
+            error
         );
+
+
+        showSuccess(
+            "Something went wrong",
+            "Your information could not be submitted. Please try again."
+        );
+
     }
+
+}
+
+
+/* =========================================================
+   SUCCESS MESSAGES
+   ========================================================= */
+
+function getSuccessMessage(type) {
+
+    switch (type) {
+
+        case "checkin":
+
+            return "You're checked in. Your visit has been recorded.";
+
+
+        case "usage":
+
+            return "Your usage record has been saved.";
+
+
+        case "project":
+
+            return "Your project has been documented.";
+
+
+        default:
+
+            return "Your information has been recorded.";
+
+    }
+
+}
+
+
+/* =========================================================
+   SUCCESS SCREEN
+   ========================================================= */
+
+function showSuccess(title, message) {
+
+    /*
+     * Your current HTML has only one
+     * message element, so we'll combine
+     * the title and message here.
+     */
+
+    const messageElement =
+        document.getElementById(
+            "successMessage"
+        );
+
+
+    messageElement.innerHTML =
+        `<strong>${title}</strong><br><br>${message}`;
+
+
+    showSection("success");
+
 }
 
 
