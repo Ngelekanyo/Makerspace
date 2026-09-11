@@ -4,12 +4,12 @@
  *
  * Frontend application logic.
  *
- * IMPORTANT:
- * Replace GOOGLE_SCRIPT_URL with your deployed
- * Google Apps Script Web App URL.
+ * Google Apps Script backend
  */
 
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8XpixqbZYjwBQjkuxG9gWSwGkiQ5d_DMY33WPIJwty4RrcQE4a6DzhuDw9QK1Xs2y/exec" ;
+const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbx8XpixqbZYjwBQjkuxG9gWSwGkiQ5d_DMY33WPIJwty4RrcQE4a6DzhuDw9QK1Xs2y/exec";
+
 
 // ============================================
 // PAGE NAVIGATION
@@ -25,19 +25,28 @@ function showPage(page) {
     ];
 
     pages.forEach(id => {
+
         const element = document.getElementById(id);
 
         if (element) {
             element.classList.add("hidden");
         }
+
     });
 
 
     if (page === "home") {
 
-        document.querySelector(".hero").classList.remove("hidden");
+        const hero = document.querySelector(".hero");
+        const actions = document.querySelector(".actions");
 
-        document.querySelector(".actions").classList.remove("hidden");
+        if (hero) {
+            hero.classList.remove("hidden");
+        }
+
+        if (actions) {
+            actions.classList.remove("hidden");
+        }
 
         window.scrollTo({
             top: 0,
@@ -48,9 +57,16 @@ function showPage(page) {
     }
 
 
-    document.querySelector(".hero").classList.add("hidden");
+    const hero = document.querySelector(".hero");
+    const actions = document.querySelector(".actions");
 
-    document.querySelector(".actions").classList.add("hidden");
+    if (hero) {
+        hero.classList.add("hidden");
+    }
+
+    if (actions) {
+        actions.classList.add("hidden");
+    }
 
 
     const selectedPage = document.getElementById(page);
@@ -79,14 +95,9 @@ async function sendData(data) {
     );
 
 
-    /*
-     * Make sure the backend URL exists.
-     */
-
     if (
         !GOOGLE_SCRIPT_URL ||
-        GOOGLE_SCRIPT_URL ===
-        "PASTE_YOUR_WEB_APP_URL_HERE"
+        GOOGLE_SCRIPT_URL === "PASTE_YOUR_WEB_APP_URL_HERE"
     ) {
 
         console.error(
@@ -98,26 +109,15 @@ async function sendData(data) {
             "The backend has not been connected yet."
         );
 
-        return;
-
+        return false;
     }
 
 
     try {
 
-        /*
-         * Apps Script Web Apps can receive
-         * the request using a POST.
-         *
-         * We use no-cors because the browser
-         * cannot directly read the Apps Script
-         * response.
-         */
-
         await fetch(
             GOOGLE_SCRIPT_URL,
             {
-
                 method: "POST",
 
                 mode: "no-cors",
@@ -127,24 +127,25 @@ async function sendData(data) {
                         "text/plain;charset=utf-8"
                 },
 
-                body:
-                    JSON.stringify(data)
-
+                body: JSON.stringify(data)
             }
         );
 
 
-        /*
-         * The request was sent.
-         */
+        console.log(
+            "Data sent to MakerSpace backend."
+        );
+
 
         showSuccess(
             "Saved!",
             getSuccessMessage(data.type)
         );
 
-    }
 
+        return true;
+
+    }
 
     catch (error) {
 
@@ -159,14 +160,15 @@ async function sendData(data) {
             "Your information could not be submitted. Please try again."
         );
 
-    }
 
+        return false;
+    }
 }
 
 
-/* =========================================================
-   SUCCESS MESSAGES
-   ========================================================= */
+// ============================================
+// SUCCESS MESSAGES
+// ============================================
 
 function getSuccessMessage(type) {
 
@@ -190,48 +192,34 @@ function getSuccessMessage(type) {
         default:
 
             return "Your information has been recorded.";
-
     }
-
 }
 
 
-/* =========================================================
-   SUCCESS SCREEN
-   ========================================================= */
+// ============================================
+// SUCCESS SCREEN
+// ============================================
 
 function showSuccess(title, message) {
 
-    /*
-     * Your current HTML has only one
-     * message element, so we'll combine
-     * the title and message here.
-     */
+    const titleElement =
+        document.getElementById("successTitle");
 
     const messageElement =
-        document.getElementById(
-            "successMessage"
-        );
+        document.getElementById("successMessage");
 
 
-    messageElement.innerHTML =
-        `<strong>${title}</strong><br><br>${message}`;
+    if (titleElement) {
+
+        titleElement.textContent = title;
+    }
 
 
-    showSection("success");
+    if (messageElement) {
 
-}
+        messageElement.textContent = message;
+    }
 
-
-// ============================================
-// SUCCESS MESSAGE
-// ============================================
-
-function showSuccess(title, message) {
-
-    document.getElementById("successTitle").textContent = title;
-
-    document.getElementById("successMessage").textContent = message;
 
     showPage("success");
 }
@@ -241,154 +229,215 @@ function showSuccess(title, message) {
 // CHECK-IN FORM
 // ============================================
 
-document
-    .getElementById("checkinForm")
-    .addEventListener("submit", function(event) {
-
-        event.preventDefault();
+const checkinForm =
+    document.getElementById("checkinForm");
 
 
-        const data = {
+if (checkinForm) {
 
-            type: "checkin",
+    checkinForm.addEventListener(
+        "submit",
+        async function(event) {
 
-            name:
-                document.getElementById("checkinName").value.trim(),
-
-            studentNumber:
-                document
-                    .getElementById("checkinStudentNumber")
-                    .value.trim(),
-
-            activity:
-                document.getElementById("checkinActivity").value,
-
-            note:
-                document
-                    .getElementById("checkinNote")
-                    .value.trim(),
-
-            timestamp:
-                new Date().toISOString()
-
-        };
+            event.preventDefault();
 
 
-        sendData(data);
+            const data = {
 
-        this.reset();
+                type: "checkin",
 
-    });
+                name:
+                    document
+                        .getElementById("checkinName")
+                        .value
+                        .trim(),
+
+                studentNumber:
+                    document
+                        .getElementById("checkinStudentNumber")
+                        .value
+                        .trim(),
+
+                activity:
+                    document
+                        .getElementById("checkinActivity")
+                        .value,
+
+                note:
+                    document
+                        .getElementById("checkinNote")
+                        .value
+                        .trim(),
+
+                timestamp:
+                    new Date().toISOString()
+            };
+
+
+            const success =
+                await sendData(data);
+
+
+            if (success) {
+
+                this.reset();
+            }
+
+        }
+    );
+}
 
 
 // ============================================
 // USAGE FORM
 // ============================================
 
-document
-    .getElementById("usageForm")
-    .addEventListener("submit", function(event) {
-
-        event.preventDefault();
+const usageForm =
+    document.getElementById("usageForm");
 
 
-        const data = {
+if (usageForm) {
 
-            type: "usage",
+    usageForm.addEventListener(
+        "submit",
+        async function(event) {
 
-            name:
-                document.getElementById("usageName").value.trim(),
-
-            studentNumber:
-                document
-                    .getElementById("usageStudentNumber")
-                    .value.trim(),
-
-            equipment:
-                document.getElementById("usageEquipment").value,
-
-            description:
-                document
-                    .getElementById("usageDescription")
-                    .value.trim(),
-
-            duration:
-                document.getElementById("usageDuration").value,
-
-            timestamp:
-                new Date().toISOString()
-
-        };
+            event.preventDefault();
 
 
-        sendData(data);
+            const data = {
 
-        this.reset();
+                type: "usage",
 
-    });
+                name:
+                    document
+                        .getElementById("usageName")
+                        .value
+                        .trim(),
+
+                studentNumber:
+                    document
+                        .getElementById("usageStudentNumber")
+                        .value
+                        .trim(),
+
+                equipment:
+                    document
+                        .getElementById("usageEquipment")
+                        .value,
+
+                description:
+                    document
+                        .getElementById("usageDescription")
+                        .value
+                        .trim(),
+
+                duration:
+                    document
+                        .getElementById("usageDuration")
+                        .value,
+
+                timestamp:
+                    new Date().toISOString()
+            };
+
+
+            const success =
+                await sendData(data);
+
+
+            if (success) {
+
+                this.reset();
+            }
+
+        }
+    );
+}
 
 
 // ============================================
 // PROJECT FORM
 // ============================================
 
-document
-    .getElementById("projectForm")
-    .addEventListener("submit", function(event) {
-
-        event.preventDefault();
+const projectForm =
+    document.getElementById("projectForm");
 
 
-        const data = {
+if (projectForm) {
 
-            type: "project",
+    projectForm.addEventListener(
+        "submit",
+        async function(event) {
 
-            projectName:
-                document
-                    .getElementById("projectName")
-                    .value.trim(),
-
-            student:
-                document
-                    .getElementById("projectStudent")
-                    .value.trim(),
-
-            category:
-                document.getElementById("projectCategory").value,
-
-            objective:
-                document
-                    .getElementById("projectObjective")
-                    .value.trim(),
-
-            work:
-                document
-                    .getElementById("projectWork")
-                    .value.trim(),
-
-            problems:
-                document
-                    .getElementById("projectProblems")
-                    .value.trim(),
-
-            lessons:
-                document
-                    .getElementById("projectLessons")
-                    .value.trim(),
-
-            nextSteps:
-                document
-                    .getElementById("projectNextSteps")
-                    .value.trim(),
-
-            timestamp:
-                new Date().toISOString()
-
-        };
+            event.preventDefault();
 
 
-        sendData(data);
+            const data = {
 
-        this.reset();
+                type: "project",
 
-    });
+                projectName:
+                    document
+                        .getElementById("projectName")
+                        .value
+                        .trim(),
+
+                student:
+                    document
+                        .getElementById("projectStudent")
+                        .value
+                        .trim(),
+
+                category:
+                    document
+                        .getElementById("projectCategory")
+                        .value,
+
+                objective:
+                    document
+                        .getElementById("projectObjective")
+                        .value
+                        .trim(),
+
+                work:
+                    document
+                        .getElementById("projectWork")
+                        .value
+                        .trim(),
+
+                problems:
+                    document
+                        .getElementById("projectProblems")
+                        .value
+                        .trim(),
+
+                lessons:
+                    document
+                        .getElementById("projectLessons")
+                        .value
+                        .trim(),
+
+                nextSteps:
+                    document
+                        .getElementById("projectNextSteps")
+                        .value
+                        .trim(),
+
+                timestamp:
+                    new Date().toISOString()
+            };
+
+
+            const success =
+                await sendData(data);
+
+
+            if (success) {
+
+                this.reset();
+            }
+
+        }
+    );
+}
