@@ -1,341 +1,443 @@
-/* =========================================================
-   MAKERSPACE*
-   Frontend controller
-   Phase 1
-   ========================================================= */
+/*
+ * MakerSpace OS
+ * Phase 1
+ *
+ * Frontend application logic.
+ *
+ * Google Apps Script backend
+ */
+
+const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbx8XpixqbZYjwBQjkuxG9gWSwGkiQ5d_DMY33WPIJwty4RrcQE4a6DzhuDw9QK1Xs2y/exec";
 
 
-/* =========================================================
-   PAGE NAVIGATION
-   ========================================================= */
+// ============================================
+// PAGE NAVIGATION
+// ============================================
 
-const pages = [
-    "home",
-    "checkin",
-    "usage",
-    "project",
-    "about",
-    "projects",
-    "success"
-];
+function showPage(page) {
 
+    const pages = [
+        "checkin",
+        "usage",
+        "project",
+        "success"
+    ];
 
-function hideAllPages() {
+    pages.forEach(id => {
 
-    pages.forEach(function (pageID) {
+        const element = document.getElementById(id);
 
-        const page = document.getElementById(pageID);
-
-        if (page) {
-
-            page.classList.remove("active");
-
+        if (element) {
+            element.classList.add("hidden");
         }
 
     });
 
-}
 
+    if (page === "home") {
 
-/* =========================================================
-   SHOW SECTION
-   ========================================================= */
+        const hero = document.querySelector(".hero");
+        const actions = document.querySelector(".actions");
 
-function showSection(sectionID) {
+        if (hero) {
+            hero.classList.remove("hidden");
+        }
 
-    hideAllPages();
+        if (actions) {
+            actions.classList.remove("hidden");
+        }
 
-    const section = document.getElementById(sectionID);
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
 
-    if (section) {
-
-        section.classList.add("active");
-
+        return;
     }
 
-    closeMenu();
+
+    const hero = document.querySelector(".hero");
+    const actions = document.querySelector(".actions");
+
+    if (hero) {
+        hero.classList.add("hidden");
+    }
+
+    if (actions) {
+        actions.classList.add("hidden");
+    }
+
+
+    const selectedPage = document.getElementById(page);
+
+    if (selectedPage) {
+        selectedPage.classList.remove("hidden");
+    }
+
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-
 }
 
 
-/* =========================================================
-   HOME
-   ========================================================= */
+// ============================================
+// SEND DATA TO GOOGLE APPS SCRIPT
+// ============================================
 
-function showHome() {
+async function sendData(data) {
 
-    showSection("home");
-
-}
-
-
-/* =========================================================
-   MOBILE MENU
-   ========================================================= */
-
-function toggleMenu() {
-
-    const nav = document.getElementById("mainNav");
-
-    nav.classList.toggle("open");
-
-}
+    console.log(
+        "Sending to MakerSpace backend:",
+        data
+    );
 
 
-function closeMenu() {
+    if (
+        !GOOGLE_SCRIPT_URL ||
+        GOOGLE_SCRIPT_URL === "PASTE_YOUR_WEB_APP_URL_HERE"
+    ) {
 
-    const nav = document.getElementById("mainNav");
+        console.error(
+            "Google Apps Script URL has not been configured."
+        );
 
-    nav.classList.remove("open");
+        showSuccess(
+            "Demo Mode",
+            "The backend has not been connected yet."
+        );
 
-}
-
-
-/* =========================================================
-   SUCCESS
-   ========================================================= */
-
-function showSuccess(message) {
-
-    document.getElementById(
-        "successMessage"
-    ).textContent = message;
-
-    showSection("success");
-
-}
+        return false;
+    }
 
 
-/* =========================================================
-   CHECK-IN
-   ========================================================= */
+    try {
 
-document
-    .getElementById("checkinForm")
-    .addEventListener("submit", function (event) {
+        await fetch(
+            GOOGLE_SCRIPT_URL,
+            {
+                method: "POST",
 
-        event.preventDefault();
+                mode: "no-cors",
 
+                headers: {
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
 
-        const data = {
+                body: JSON.stringify(data)
+            }
+        );
 
-            type: "checkin",
-
-            name:
-                document
-                    .getElementById("checkinName")
-                    .value
-                    .trim(),
-
-            studentNumber:
-                document
-                    .getElementById("checkinStudentNumber")
-                    .value
-                    .trim(),
-
-            activity:
-                document
-                    .getElementById("checkinActivity")
-                    .value,
-
-            note:
-                document
-                    .getElementById("checkinNote")
-                    .value
-                    .trim(),
-
-            timestamp:
-                new Date().toISOString()
-
-        };
-
-
-        /*
-         * For now we only print the data.
-         *
-         * Google Apps Script will be connected
-         * here in the next phase.
-         */
 
         console.log(
-            "CHECK-IN:",
-            data
+            "Data sent to MakerSpace backend."
         );
 
 
         showSuccess(
-            "You're checked in. Your visit has been recorded."
+            "Saved!",
+            getSuccessMessage(data.type)
         );
 
 
-        this.reset();
-
-    });
-
-
-/* =========================================================
-   USAGE
-   ========================================================= */
-
-document
-    .getElementById("usageForm")
-    .addEventListener("submit", function (event) {
-
-        event.preventDefault();
-
-
-        const data = {
-
-            type: "usage",
-
-            name:
-                document
-                    .getElementById("usageName")
-                    .value
-                    .trim(),
-
-            studentNumber:
-                document
-                    .getElementById("usageStudentNumber")
-                    .value
-                    .trim(),
-
-            equipment:
-                document
-                    .getElementById("usageEquipment")
-                    .value,
-
-            description:
-                document
-                    .getElementById("usageDescription")
-                    .value
-                    .trim(),
-
-            duration:
-                document
-                    .getElementById("usageDuration")
-                    .value,
-
-            timestamp:
-                new Date().toISOString()
-
-        };
-
-
-        console.log(
-            "USAGE:",
-            data
-        );
-
-
-        showSuccess(
-            "Usage recorded. Thanks for helping us understand the MakerSpace."
-        );
-
-
-        this.reset();
-
-    });
-
-
-/* =========================================================
-   PROJECT DOCUMENTATION
-   ========================================================= */
-
-document
-    .getElementById("projectForm")
-    .addEventListener("submit", function (event) {
-
-        event.preventDefault();
-
-
-        const data = {
-
-            type: "project",
-
-            projectName:
-                document
-                    .getElementById("projectName")
-                    .value
-                    .trim(),
-
-            student:
-                document
-                    .getElementById("projectStudent")
-                    .value
-                    .trim(),
-
-            category:
-                document
-                    .getElementById("projectCategory")
-                    .value,
-
-            objective:
-                document
-                    .getElementById("projectObjective")
-                    .value
-                    .trim(),
-
-            work:
-                document
-                    .getElementById("projectWork")
-                    .value
-                    .trim(),
-
-            problems:
-                document
-                    .getElementById("projectProblems")
-                    .value
-                    .trim(),
-
-            lessons:
-                document
-                    .getElementById("projectLessons")
-                    .value
-                    .trim(),
-
-            nextSteps:
-                document
-                    .getElementById("projectNextSteps")
-                    .value
-                    .trim(),
-
-            timestamp:
-                new Date().toISOString()
-
-        };
-
-
-        console.log(
-            "PROJECT:",
-            data
-        );
-
-
-        showSuccess(
-            "Project saved. Keep building."
-        );
-
-
-        this.reset();
-
-    });
-
-
-/* =========================================================
-   INITIALISE
-   ========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        showHome();
+        return true;
 
     }
-);
+
+    catch (error) {
+
+        console.error(
+            "MakerSpace backend error:",
+            error
+        );
+
+
+        showSuccess(
+            "Something went wrong",
+            "Your information could not be submitted. Please try again."
+        );
+
+
+        return false;
+    }
+}
+
+
+// ============================================
+// SUCCESS MESSAGES
+// ============================================
+
+function getSuccessMessage(type) {
+
+    switch (type) {
+
+        case "checkin":
+
+            return "You're checked in. Your visit has been recorded.";
+
+
+        case "usage":
+
+            return "Your usage record has been saved.";
+
+
+        case "project":
+
+            return "Your project has been documented.";
+
+
+        default:
+
+            return "Your information has been recorded.";
+    }
+}
+
+
+// ============================================
+// SUCCESS SCREEN
+// ============================================
+
+function showSuccess(title, message) {
+
+    const titleElement =
+        document.getElementById("successTitle");
+
+    const messageElement =
+        document.getElementById("successMessage");
+
+
+    if (titleElement) {
+
+        titleElement.textContent = title;
+    }
+
+
+    if (messageElement) {
+
+        messageElement.textContent = message;
+    }
+
+
+    showPage("success");
+}
+
+
+// ============================================
+// CHECK-IN FORM
+// ============================================
+
+const checkinForm =
+    document.getElementById("checkinForm");
+
+
+if (checkinForm) {
+
+    checkinForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const data = {
+
+                type: "checkin",
+
+                name:
+                    document
+                        .getElementById("checkinName")
+                        .value
+                        .trim(),
+
+                studentNumber:
+                    document
+                        .getElementById("checkinStudentNumber")
+                        .value
+                        .trim(),
+
+                activity:
+                    document
+                        .getElementById("checkinActivity")
+                        .value,
+
+                note:
+                    document
+                        .getElementById("checkinNote")
+                        .value
+                        .trim(),
+
+                timestamp:
+                    new Date().toISOString()
+            };
+
+
+            const success =
+                await sendData(data);
+
+
+            if (success) {
+
+                this.reset();
+            }
+
+        }
+    );
+}
+
+
+// ============================================
+// USAGE FORM
+// ============================================
+
+const usageForm =
+    document.getElementById("usageForm");
+
+
+if (usageForm) {
+
+    usageForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const data = {
+
+                type: "usage",
+
+                name:
+                    document
+                        .getElementById("usageName")
+                        .value
+                        .trim(),
+
+                studentNumber:
+                    document
+                        .getElementById("usageStudentNumber")
+                        .value
+                        .trim(),
+
+                equipment:
+                    document
+                        .getElementById("usageEquipment")
+                        .value,
+
+                description:
+                    document
+                        .getElementById("usageDescription")
+                        .value
+                        .trim(),
+
+                duration:
+                    document
+                        .getElementById("usageDuration")
+                        .value,
+
+                timestamp:
+                    new Date().toISOString()
+            };
+
+
+            const success =
+                await sendData(data);
+
+
+            if (success) {
+
+                this.reset();
+            }
+
+        }
+    );
+}
+
+
+// ============================================
+// PROJECT FORM
+// ============================================
+
+const projectForm =
+    document.getElementById("projectForm");
+
+
+if (projectForm) {
+
+    projectForm.addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const data = {
+
+                type: "project",
+
+                projectName:
+                    document
+                        .getElementById("projectName")
+                        .value
+                        .trim(),
+
+                student:
+                    document
+                        .getElementById("projectStudent")
+                        .value
+                        .trim(),
+
+                category:
+                    document
+                        .getElementById("projectCategory")
+                        .value,
+
+                objective:
+                    document
+                        .getElementById("projectObjective")
+                        .value
+                        .trim(),
+
+                work:
+                    document
+                        .getElementById("projectWork")
+                        .value
+                        .trim(),
+
+                problems:
+                    document
+                        .getElementById("projectProblems")
+                        .value
+                        .trim(),
+
+                lessons:
+                    document
+                        .getElementById("projectLessons")
+                        .value
+                        .trim(),
+
+                nextSteps:
+                    document
+                        .getElementById("projectNextSteps")
+                        .value
+                        .trim(),
+
+                timestamp:
+                    new Date().toISOString()
+            };
+
+
+            const success =
+                await sendData(data);
+
+
+            if (success) {
+
+                this.reset();
+            }
+
+        }
+    );
+}
