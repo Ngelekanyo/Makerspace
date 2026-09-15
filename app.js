@@ -1,499 +1,515 @@
-const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbx8XpixqbZYjwBQjkuxG9gWSwGkiQ5d_DMY33WPIJwty4RrcQE4a6DzhuDw9QK1Xs2y/exec";
+/* =========================================================
+   MAKERSPACE*
+   Frontend controller
+   Phase 1
+   ========================================================= */
+
 
 /* =========================================================
-PAGE NAVIGATION
-========================================================= */
+   GOOGLE APPS SCRIPT BACKEND
+   ========================================================= */
+
+const GOOGLE_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbx8XpixqbZYjwBQjkuxG9gWSwGkiQ5d_DMY33WPIJwty4RrcQE4a6DzhuDw9QK1Xs2y/exec";
+
+
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
 
 const pages = [
-"home",
-"checkin",
-"usage",
-"project",
-"about",
-"projects",
-"success"
+    "home",
+    "checkin",
+    "usage",
+    "project",
+    "about",
+    "projects",
+    "success"
 ];
+
 
 function hideAllPages() {
 
-pages.forEach(function (pageID) {
+    pages.forEach(function (pageID) {
 
-    const page = document.getElementById(pageID);
+        const page =
+            document.getElementById(pageID);
 
-    if (page) {
-        page.classList.remove("active");
-    }
+        if (page) {
 
-});
+            page.classList.remove("active");
+
+        }
+
+    });
 
 }
+
+
+/* =========================================================
+   SHOW SECTION
+   ========================================================= */
 
 function showSection(sectionID) {
 
-hideAllPages();
+    hideAllPages();
 
-const section = document.getElementById(sectionID);
+    const section =
+        document.getElementById(sectionID);
 
-if (section) {
-    section.classList.add("active");
+    if (section) {
+
+        section.classList.add("active");
+
+    }
+
+    closeMenu();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
 }
 
-closeMenu();
-
-window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-});
-
-}
-
-function showHome() {
-showSection("home");
-}
 
 /* =========================================================
-MOBILE MENU
-========================================================= */
+   HOME
+   ========================================================= */
+
+function showHome() {
+
+    showSection("home");
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
 
 function toggleMenu() {
 
-const nav = document.getElementById("mainNav");
+    const nav =
+        document.getElementById("mainNav");
 
-if (nav) {
-    nav.classList.toggle("open");
+    if (nav) {
+
+        nav.classList.toggle("open");
+
+    }
+
 }
 
-}
 
 function closeMenu() {
 
-const nav = document.getElementById("mainNav");
+    const nav =
+        document.getElementById("mainNav");
 
-if (nav) {
-    nav.classList.remove("open");
+    if (nav) {
+
+        nav.classList.remove("open");
+
+    }
+
 }
 
-}
 
 /* =========================================================
-SUCCESS
-========================================================= */
+   SUCCESS
+   ========================================================= */
 
 function showSuccess(message) {
 
-const messageElement =
-    document.getElementById("successMessage");
+    const messageElement =
+        document.getElementById(
+            "successMessage"
+        );
 
-if (messageElement) {
-    messageElement.textContent = message;
+    if (messageElement) {
+
+        messageElement.textContent =
+            message;
+
+    }
+
+    showSection("success");
+
 }
 
-showSection("success");
-
-}
 
 /* =========================================================
-SUBMIT BUTTON FEEDBACK
-========================================================= */
-
-function setButtonLoading(button, text) {
-
-if (!button) return;
-
-button.disabled = true;
-button.dataset.originalText = button.innerHTML;
-
-button.innerHTML = text;
-
-button.classList.add("is-loading");
-
-}
-
-function restoreButton(button) {
-
-if (!button) return;
-
-button.disabled = false;
-
-if (button.dataset.originalText) {
-    button.innerHTML = button.dataset.originalText;
-}
-
-button.classList.remove("is-loading");
-
-}
-
-/* =========================================================
-SEND DATA TO GOOGLE APPS SCRIPT
-========================================================= */
+   SEND DATA TO GOOGLE APPS SCRIPT
+   ========================================================= */
 
 async function sendData(data) {
 
-console.log(
-    "Sending to MakerSpace backend:",
-    data
-);
-
-
-if (
-    !GOOGLE_SCRIPT_URL ||
-    GOOGLE_SCRIPT_URL ===
-    "PASTE_YOUR_WEB_APP_URL_HERE"
-) {
-
-    console.error(
-        "Google Apps Script URL has not been configured."
-    );
-
-    return false;
-
-}
-
-
-try {
-
-    await fetch(
-        GOOGLE_SCRIPT_URL,
-        {
-            method: "POST",
-
-            mode: "no-cors",
-
-            headers: {
-                "Content-Type":
-                    "text/plain;charset=utf-8"
-            },
-
-            body: JSON.stringify(data)
-        }
-    );
-
-
     console.log(
-        "Data sent to MakerSpace backend."
+        "Sending to MakerSpace backend:",
+        data
     );
 
 
-    return true;
+    if (
+        !GOOGLE_SCRIPT_URL ||
+        GOOGLE_SCRIPT_URL ===
+        "PASTE_YOUR_WEB_APP_URL_HERE"
+    ) {
+
+        console.error(
+            "Google Apps Script URL has not been configured."
+        );
+
+        showSuccess(
+            "Backend is not connected yet."
+        );
+
+        return false;
+
+    }
+
+
+    try {
+
+        await fetch(
+            GOOGLE_SCRIPT_URL,
+            {
+
+                method: "POST",
+
+                mode: "no-cors",
+
+                headers: {
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
+
+                body:
+                    JSON.stringify(data)
+
+            }
+        );
+
+
+        console.log(
+            "Data sent to MakerSpace backend."
+        );
+
+
+        return true;
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "MakerSpace backend error:",
+            error
+        );
+
+
+        showSuccess(
+            "Something went wrong. Please try again."
+        );
+
+
+        return false;
+
+    }
 
 }
 
-
-catch (error) {
-
-    console.error(
-        "MakerSpace backend error:",
-        error
-    );
-
-    return false;
-
-}
-
-}
 
 /* =========================================================
-CHECK-IN
-========================================================= */
+   CHECK-IN
+   ========================================================= */
 
 const checkinForm =
-document.getElementById("checkinForm");
+    document.getElementById(
+        "checkinForm"
+    );
+
 
 if (checkinForm) {
 
-checkinForm.addEventListener(
-    "submit",
-    async function (event) {
+    checkinForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
-
-        const button =
-            this.querySelector(".submit-button");
+            event.preventDefault();
 
 
-        const data = {
+            const data = {
 
-            type: "checkin",
+                type: "checkin",
 
-            name:
-                document
-                    .getElementById("checkinName")
-                    .value
-                    .trim(),
+                name:
+                    document
+                        .getElementById(
+                            "checkinName"
+                        )
+                        .value
+                        .trim(),
 
-            studentNumber:
-                document
-                    .getElementById("checkinStudentNumber")
-                    .value
-                    .trim(),
+                studentNumber:
+                    document
+                        .getElementById(
+                            "checkinStudentNumber"
+                        )
+                        .value
+                        .trim(),
 
-            activity:
-                document
-                    .getElementById("checkinActivity")
-                    .value,
+                activity:
+                    document
+                        .getElementById(
+                            "checkinActivity"
+                        )
+                        .value,
 
-            note:
-                document
-                    .getElementById("checkinNote")
-                    .value
-                    .trim(),
+                note:
+                    document
+                        .getElementById(
+                            "checkinNote"
+                        )
+                        .value
+                        .trim(),
 
-            timestamp:
-                new Date().toISOString()
+                timestamp:
+                    new Date().toISOString()
 
-        };
-
-
-        setButtonLoading(
-            button,
-            "CHECKING IN..."
-        );
-
-
-        const success =
-            await sendData(data);
+            };
 
 
-        if (success) {
+            const success =
+                await sendData(data);
 
-            this.reset();
 
-            showSuccess(
-                "You're checked in. Your visit has been recorded."
-            );
+            if (success) {
 
-        }
+                this.reset();
 
-        else {
+                showSuccess(
+                    "You're checked in. Your visit has been recorded."
+                );
 
-            restoreButton(button);
-
-            alert(
-                "Something went wrong while checking you in. Please try again."
-            );
+            }
 
         }
-
-    }
-);
+    );
 
 }
 
+
 /* =========================================================
-USAGE
-========================================================= */
+   USAGE
+   ========================================================= */
 
 const usageForm =
-document.getElementById("usageForm");
+    document.getElementById(
+        "usageForm"
+    );
+
 
 if (usageForm) {
 
-usageForm.addEventListener(
-    "submit",
-    async function (event) {
+    usageForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
-
-        const button =
-            this.querySelector(".submit-button");
+            event.preventDefault();
 
 
-        const data = {
+            const data = {
 
-            type: "usage",
+                type: "usage",
 
-            name:
-                document
-                    .getElementById("usageName")
-                    .value
-                    .trim(),
+                name:
+                    document
+                        .getElementById(
+                            "usageName"
+                        )
+                        .value
+                        .trim(),
 
-            studentNumber:
-                document
-                    .getElementById("usageStudentNumber")
-                    .value
-                    .trim(),
+                studentNumber:
+                    document
+                        .getElementById(
+                            "usageStudentNumber"
+                        )
+                        .value
+                        .trim(),
 
-            equipment:
-                document
-                    .getElementById("usageEquipment")
-                    .value,
+                equipment:
+                    document
+                        .getElementById(
+                            "usageEquipment"
+                        )
+                        .value,
 
-            description:
-                document
-                    .getElementById("usageDescription")
-                    .value
-                    .trim(),
+                description:
+                    document
+                        .getElementById(
+                            "usageDescription"
+                        )
+                        .value
+                        .trim(),
 
-            duration:
-                document
-                    .getElementById("usageDuration")
-                    .value
-                    .trim(),
+                duration:
+                    document
+                        .getElementById(
+                            "usageDuration"
+                        )
+                        .value,
 
-            timestamp:
-                new Date().toISOString()
+                timestamp:
+                    new Date().toISOString()
 
-        };
-
-
-        setButtonLoading(
-            button,
-            "LOGGING USAGE..."
-        );
-
-
-        const success =
-            await sendData(data);
+            };
 
 
-        if (success) {
+            const success =
+                await sendData(data);
 
-            this.reset();
 
-            showSuccess(
-                "Usage recorded. Thanks for helping us understand the MakerSpace."
-            );
+            if (success) {
 
-        }
+                this.reset();
 
-        else {
+                showSuccess(
+                    "Usage recorded. Thanks for helping us understand the MakerSpace."
+                );
 
-            restoreButton(button);
-
-            alert(
-                "Something went wrong while logging usage. Please try again."
-            );
+            }
 
         }
-
-    }
-);
+    );
 
 }
 
+
 /* =========================================================
-PROJECT DOCUMENTATION
-========================================================= */
+   PROJECT DOCUMENTATION
+   ========================================================= */
 
 const projectForm =
-document.getElementById("projectForm");
+    document.getElementById(
+        "projectForm"
+    );
+
 
 if (projectForm) {
 
-projectForm.addEventListener(
-    "submit",
-    async function (event) {
+    projectForm.addEventListener(
+        "submit",
+        async function (event) {
 
-        event.preventDefault();
-
-        const button =
-            this.querySelector(".submit-button");
+            event.preventDefault();
 
 
-        const data = {
+            const data = {
 
-            type: "project",
+                type: "project",
 
-            projectName:
-                document
-                    .getElementById("projectName")
-                    .value
-                    .trim(),
+                projectName:
+                    document
+                        .getElementById(
+                            "projectName"
+                        )
+                        .value
+                        .trim(),
 
-            student:
-                document
-                    .getElementById("projectStudent")
-                    .value
-                    .trim(),
+                student:
+                    document
+                        .getElementById(
+                            "projectStudent"
+                        )
+                        .value
+                        .trim(),
 
-            category:
-                document
-                    .getElementById("projectCategory")
-                    .value,
+                category:
+                    document
+                        .getElementById(
+                            "projectCategory"
+                        )
+                        .value,
 
-            objective:
-                document
-                    .getElementById("projectObjective")
-                    .value
-                    .trim(),
+                objective:
+                    document
+                        .getElementById(
+                            "projectObjective"
+                        )
+                        .value
+                        .trim(),
 
-            work:
-                document
-                    .getElementById("projectWork")
-                    .value
-                    .trim(),
+                work:
+                    document
+                        .getElementById(
+                            "projectWork"
+                        )
+                        .value
+                        .trim(),
 
-            problems:
-                document
-                    .getElementById("projectProblems")
-                    .value
-                    .trim(),
+                problems:
+                    document
+                        .getElementById(
+                            "projectProblems"
+                        )
+                        .value
+                        .trim(),
 
-            lessons:
-                document
-                    .getElementById("projectLessons")
-                    .value
-                    .trim(),
+                lessons:
+                    document
+                        .getElementById(
+                            "projectLessons"
+                        )
+                        .value
+                        .trim(),
 
-            nextSteps:
-                document
-                    .getElementById("projectNextSteps")
-                    .value
-                    .trim(),
+                nextSteps:
+                    document
+                        .getElementById(
+                            "projectNextSteps"
+                        )
+                        .value
+                        .trim(),
 
-            timestamp:
-                new Date().toISOString()
+                timestamp:
+                    new Date().toISOString()
 
-        };
-
-
-        setButtonLoading(
-            button,
-            "SAVING PROJECT..."
-        );
-
-
-        const success =
-            await sendData(data);
+            };
 
 
-        if (success) {
+            const success =
+                await sendData(data);
 
-            this.reset();
 
-            showSuccess(
-                "Project saved. Keep building."
-            );
+            if (success) {
+
+                this.reset();
+
+                showSuccess(
+                    "Project saved. Keep building."
+                );
+
+            }
 
         }
-
-        else {
-
-            restoreButton(button);
-
-            alert(
-                "Something went wrong while saving your project. Please try again."
-            );
-
-        }
-
-    }
-);
+    );
 
 }
+
 
 /* =========================================================
-INITIALISE
-========================================================= */
+   INITIALISE
+   ========================================================= */
 
 document.addEventListener(
-"DOMContentLoaded",
-function () {
+    "DOMContentLoaded",
+    function () {
 
-    showHome();
+        showHome();
 
-}
-
+    }
 );
