@@ -1,91 +1,147 @@
-/*
- * MakerSpace OS
- * Phase 1
- *
- * Frontend application logic.
- *
- * Google Apps Script backend
- */
+/* =========================================================
+   MAKERSPACE*
+   Frontend controller
+   Phase 1
+   ========================================================= */
+
+
+/* =========================================================
+   GOOGLE APPS SCRIPT BACKEND
+   ========================================================= */
 
 const GOOGLE_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbx8XpixqbZYjwBQjkuxG9gWSwGkiQ5d_DMY33WPIJwty4RrcQE4a6DzhuDw9QK1Xs2y/exec";
 
 
-// ============================================
-// PAGE NAVIGATION
-// ============================================
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
 
-function showPage(page) {
+const pages = [
+    "home",
+    "checkin",
+    "usage",
+    "project",
+    "about",
+    "projects",
+    "success"
+];
 
-    const pages = [
-        "checkin",
-        "usage",
-        "project",
-        "success"
-    ];
 
-    pages.forEach(id => {
+function hideAllPages() {
 
-        const element = document.getElementById(id);
+    pages.forEach(function (pageID) {
 
-        if (element) {
-            element.classList.add("hidden");
+        const page =
+            document.getElementById(pageID);
+
+        if (page) {
+
+            page.classList.remove("active");
+
         }
 
     });
 
+}
 
-    if (page === "home") {
 
-        const hero = document.querySelector(".hero");
-        const actions = document.querySelector(".actions");
+/* =========================================================
+   SHOW SECTION
+   ========================================================= */
 
-        if (hero) {
-            hero.classList.remove("hidden");
-        }
+function showSection(sectionID) {
 
-        if (actions) {
-            actions.classList.remove("hidden");
-        }
+    hideAllPages();
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+    const section =
+        document.getElementById(sectionID);
 
-        return;
+    if (section) {
+
+        section.classList.add("active");
+
     }
 
-
-    const hero = document.querySelector(".hero");
-    const actions = document.querySelector(".actions");
-
-    if (hero) {
-        hero.classList.add("hidden");
-    }
-
-    if (actions) {
-        actions.classList.add("hidden");
-    }
-
-
-    const selectedPage = document.getElementById(page);
-
-    if (selectedPage) {
-        selectedPage.classList.remove("hidden");
-    }
-
+    closeMenu();
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
+
 }
 
 
-// ============================================
-// SEND DATA TO GOOGLE APPS SCRIPT
-// ============================================
+/* =========================================================
+   HOME
+   ========================================================= */
+
+function showHome() {
+
+    showSection("home");
+
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+function toggleMenu() {
+
+    const nav =
+        document.getElementById("mainNav");
+
+    if (nav) {
+
+        nav.classList.toggle("open");
+
+    }
+
+}
+
+
+function closeMenu() {
+
+    const nav =
+        document.getElementById("mainNav");
+
+    if (nav) {
+
+        nav.classList.remove("open");
+
+    }
+
+}
+
+
+/* =========================================================
+   SUCCESS
+   ========================================================= */
+
+function showSuccess(message) {
+
+    const messageElement =
+        document.getElementById(
+            "successMessage"
+        );
+
+    if (messageElement) {
+
+        messageElement.textContent =
+            message;
+
+    }
+
+    showSection("success");
+
+}
+
+
+/* =========================================================
+   SEND DATA TO GOOGLE APPS SCRIPT
+   ========================================================= */
 
 async function sendData(data) {
 
@@ -97,7 +153,8 @@ async function sendData(data) {
 
     if (
         !GOOGLE_SCRIPT_URL ||
-        GOOGLE_SCRIPT_URL === "PASTE_YOUR_WEB_APP_URL_HERE"
+        GOOGLE_SCRIPT_URL ===
+        "PASTE_YOUR_WEB_APP_URL_HERE"
     ) {
 
         console.error(
@@ -105,11 +162,11 @@ async function sendData(data) {
         );
 
         showSuccess(
-            "Demo Mode",
-            "The backend has not been connected yet."
+            "Backend is not connected yet."
         );
 
         return false;
+
     }
 
 
@@ -118,6 +175,7 @@ async function sendData(data) {
         await fetch(
             GOOGLE_SCRIPT_URL,
             {
+
                 method: "POST",
 
                 mode: "no-cors",
@@ -127,7 +185,9 @@ async function sendData(data) {
                         "text/plain;charset=utf-8"
                 },
 
-                body: JSON.stringify(data)
+                body:
+                    JSON.stringify(data)
+
             }
         );
 
@@ -137,15 +197,10 @@ async function sendData(data) {
         );
 
 
-        showSuccess(
-            "Saved!",
-            getSuccessMessage(data.type)
-        );
-
-
         return true;
 
     }
+
 
     catch (error) {
 
@@ -156,88 +211,32 @@ async function sendData(data) {
 
 
         showSuccess(
-            "Something went wrong",
-            "Your information could not be submitted. Please try again."
+            "Something went wrong. Please try again."
         );
 
 
         return false;
+
     }
+
 }
 
 
-// ============================================
-// SUCCESS MESSAGES
-// ============================================
-
-function getSuccessMessage(type) {
-
-    switch (type) {
-
-        case "checkin":
-
-            return "You're checked in. Your visit has been recorded.";
-
-
-        case "usage":
-
-            return "Your usage record has been saved.";
-
-
-        case "project":
-
-            return "Your project has been documented.";
-
-
-        default:
-
-            return "Your information has been recorded.";
-    }
-}
-
-
-// ============================================
-// SUCCESS SCREEN
-// ============================================
-
-function showSuccess(title, message) {
-
-    const titleElement =
-        document.getElementById("successTitle");
-
-    const messageElement =
-        document.getElementById("successMessage");
-
-
-    if (titleElement) {
-
-        titleElement.textContent = title;
-    }
-
-
-    if (messageElement) {
-
-        messageElement.textContent = message;
-    }
-
-
-    showPage("success");
-}
-
-
-// ============================================
-// CHECK-IN FORM
-// ============================================
+/* =========================================================
+   CHECK-IN
+   ========================================================= */
 
 const checkinForm =
-    document.getElementById("checkinForm");
+    document.getElementById(
+        "checkinForm"
+    );
 
 
 if (checkinForm) {
 
     checkinForm.addEventListener(
         "submit",
-        async function(event) {
+        async function (event) {
 
             event.preventDefault();
 
@@ -248,29 +247,38 @@ if (checkinForm) {
 
                 name:
                     document
-                        .getElementById("checkinName")
+                        .getElementById(
+                            "checkinName"
+                        )
                         .value
                         .trim(),
 
                 studentNumber:
                     document
-                        .getElementById("checkinStudentNumber")
+                        .getElementById(
+                            "checkinStudentNumber"
+                        )
                         .value
                         .trim(),
 
                 activity:
                     document
-                        .getElementById("checkinActivity")
+                        .getElementById(
+                            "checkinActivity"
+                        )
                         .value,
 
                 note:
                     document
-                        .getElementById("checkinNote")
+                        .getElementById(
+                            "checkinNote"
+                        )
                         .value
                         .trim(),
 
                 timestamp:
                     new Date().toISOString()
+
             };
 
 
@@ -281,26 +289,34 @@ if (checkinForm) {
             if (success) {
 
                 this.reset();
+
+                showSuccess(
+                    "You're checked in. Your visit has been recorded."
+                );
+
             }
 
         }
     );
+
 }
 
 
-// ============================================
-// USAGE FORM
-// ============================================
+/* =========================================================
+   USAGE
+   ========================================================= */
 
 const usageForm =
-    document.getElementById("usageForm");
+    document.getElementById(
+        "usageForm"
+    );
 
 
 if (usageForm) {
 
     usageForm.addEventListener(
         "submit",
-        async function(event) {
+        async function (event) {
 
             event.preventDefault();
 
@@ -311,34 +327,45 @@ if (usageForm) {
 
                 name:
                     document
-                        .getElementById("usageName")
+                        .getElementById(
+                            "usageName"
+                        )
                         .value
                         .trim(),
 
                 studentNumber:
                     document
-                        .getElementById("usageStudentNumber")
+                        .getElementById(
+                            "usageStudentNumber"
+                        )
                         .value
                         .trim(),
 
                 equipment:
                     document
-                        .getElementById("usageEquipment")
+                        .getElementById(
+                            "usageEquipment"
+                        )
                         .value,
 
                 description:
                     document
-                        .getElementById("usageDescription")
+                        .getElementById(
+                            "usageDescription"
+                        )
                         .value
                         .trim(),
 
                 duration:
                     document
-                        .getElementById("usageDuration")
+                        .getElementById(
+                            "usageDuration"
+                        )
                         .value,
 
                 timestamp:
                     new Date().toISOString()
+
             };
 
 
@@ -349,26 +376,34 @@ if (usageForm) {
             if (success) {
 
                 this.reset();
+
+                showSuccess(
+                    "Usage recorded. Thanks for helping us understand the MakerSpace."
+                );
+
             }
 
         }
     );
+
 }
 
 
-// ============================================
-// PROJECT FORM
-// ============================================
+/* =========================================================
+   PROJECT DOCUMENTATION
+   ========================================================= */
 
 const projectForm =
-    document.getElementById("projectForm");
+    document.getElementById(
+        "projectForm"
+    );
 
 
 if (projectForm) {
 
     projectForm.addEventListener(
         "submit",
-        async function(event) {
+        async function (event) {
 
             event.preventDefault();
 
@@ -379,53 +414,70 @@ if (projectForm) {
 
                 projectName:
                     document
-                        .getElementById("projectName")
+                        .getElementById(
+                            "projectName"
+                        )
                         .value
                         .trim(),
 
                 student:
                     document
-                        .getElementById("projectStudent")
+                        .getElementById(
+                            "projectStudent"
+                        )
                         .value
                         .trim(),
 
                 category:
                     document
-                        .getElementById("projectCategory")
+                        .getElementById(
+                            "projectCategory"
+                        )
                         .value,
 
                 objective:
                     document
-                        .getElementById("projectObjective")
+                        .getElementById(
+                            "projectObjective"
+                        )
                         .value
                         .trim(),
 
                 work:
                     document
-                        .getElementById("projectWork")
+                        .getElementById(
+                            "projectWork"
+                        )
                         .value
                         .trim(),
 
                 problems:
                     document
-                        .getElementById("projectProblems")
+                        .getElementById(
+                            "projectProblems"
+                        )
                         .value
                         .trim(),
 
                 lessons:
                     document
-                        .getElementById("projectLessons")
+                        .getElementById(
+                            "projectLessons"
+                        )
                         .value
                         .trim(),
 
                 nextSteps:
                     document
-                        .getElementById("projectNextSteps")
+                        .getElementById(
+                            "projectNextSteps"
+                        )
                         .value
                         .trim(),
 
                 timestamp:
                     new Date().toISOString()
+
             };
 
 
@@ -436,8 +488,28 @@ if (projectForm) {
             if (success) {
 
                 this.reset();
+
+                showSuccess(
+                    "Project saved. Keep building."
+                );
+
             }
 
         }
     );
+
 }
+
+
+/* =========================================================
+   INITIALISE
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        showHome();
+
+    }
+);
