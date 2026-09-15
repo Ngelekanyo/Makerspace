@@ -1,6 +1,5 @@
 /* =========================================================
    MAKERSPACE*
-   Hasso Plattner d-school Afrika
    Phase 1
    ========================================================= */
 
@@ -16,35 +15,12 @@
 }
 
 
-:root {
-
-    /* d-school-inspired palette */
-
-    --blue: #0057b8;
-    --blue-dark: #003f88;
-    --blue-light: #eaf3ff;
-
-    --yellow: #f5c542;
-    --green: #58a55c;
-
-    --black: #111111;
-    --dark-grey: #333333;
-    --grey: #6f7479;
-
-    --light-grey: #f4f5f6;
-    --border: #dfe3e7;
-
-    --white: #ffffff;
-}
-
-
 html {
     scroll-behavior: smooth;
 }
 
 
 body {
-
     min-height: 100vh;
 
     font-family:
@@ -52,11 +28,53 @@ body {
         Helvetica,
         sans-serif;
 
-    background: var(--white);
+    background: #f6f6f3;
 
-    color: var(--black);
+    color: #111111;
 
-    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
+:root {
+
+    --blue: #0057b8;
+
+    --blue-dark: #003f87;
+
+    --blue-light: #e8f1fb;
+
+    --yellow: #f5c542;
+
+    --black: #111111;
+
+    --grey-dark: #3f4448;
+
+    --grey: #73787d;
+
+    --off-white: #f6f6f3;
+
+    --white: #ffffff;
+
+    --border: #dedede;
+
 }
 
 
@@ -64,81 +82,130 @@ body {
    HEADER
    ========================================================= */
 
-.topbar {
+.site-header {
 
-    width: 100%;
+    position: sticky;
 
-    padding: 22px 6%;
+    top: 0;
+
+    z-index: 1000;
 
     background: var(--white);
 
-    border-bottom: 4px solid var(--blue);
+    border-bottom:
+        1px solid var(--border);
+
 }
 
 
-.brand {
+.header-inner {
+
+    max-width: 1400px;
+
+    margin: auto;
+
+    padding:
+        20px 5vw;
 
     display: flex;
 
     align-items: center;
 
-    gap: 14px;
+    justify-content: space-between;
+
 }
 
 
-.brand-mark {
+.logo {
 
-    width: 48px;
-    height: 48px;
+    border: none;
+
+    background: none;
 
     display: flex;
 
     align-items: center;
-    justify-content: center;
 
-    background: var(--blue);
+    gap: 4px;
 
-    color: var(--white);
+    font-size: 1.4rem;
 
-    border-radius: 50%;
+    font-weight: 900;
 
-    font-size: 23px;
+    letter-spacing: -0.05em;
 
-    font-weight: bold;
 }
 
 
-.brand h1 {
+.logo-star {
 
-    font-size: 20px;
+    color: var(--blue);
+
+    font-size: 2rem;
+
+    line-height: 0;
+}
+
+
+.main-nav {
+
+    display: flex;
+
+    gap: 35px;
+
+}
+
+
+.main-nav button {
+
+    border: none;
+
+    background: none;
+
+    font-size: 0.75rem;
 
     font-weight: 800;
 
-    letter-spacing: -0.5px;
+    letter-spacing: 0.12em;
+
 }
 
 
-.brand p {
+.main-nav button:hover {
 
-    margin-top: 1px;
+    color: var(--blue);
 
-    font-size: 12px;
+}
 
-    color: var(--grey);
+
+.menu-toggle {
+
+    display: none;
+
+    border: none;
+
+    background: none;
+
+    font-size: 1.7rem;
+
 }
 
 
 /* =========================================================
-   MAIN CONTAINER
+   PAGE SYSTEM
    ========================================================= */
 
-.container {
+.page {
 
-    width: min(1050px, 90%);
+    display: none;
 
-    margin: auto;
+}
 
-    padding: 70px 0 90px;
+
+.page.active {
+
+    display: block;
+
 }
 
 
@@ -148,95 +215,142 @@ body {
 
 .hero {
 
-    position: relative;
+    min-height: 78vh;
 
-    margin-bottom: 55px;
+    background: var(--blue);
 
-    padding: 20px 0;
+    color: var(--white);
+
+    display: flex;
+
+    align-items: center;
+
 }
 
 
-.hero::before {
+.hero-content {
 
-    content: "";
+    width: 100%;
 
-    position: absolute;
+    max-width: 1400px;
 
-    left: -25px;
-    top: 0;
+    margin: auto;
 
-    width: 7px;
-    height: 100%;
+    padding:
+        80px 5vw;
 
-    background: var(--yellow);
 }
 
 
 .eyebrow {
 
-    margin-bottom: 12px;
+    font-size: 0.72rem;
 
-    font-size: 12px;
+    font-weight: 900;
 
-    font-weight: 800;
+    letter-spacing: 0.18em;
 
-    letter-spacing: 1.8px;
+    margin-bottom: 25px;
 
-    color: var(--blue);
 }
 
 
-.hero h2 {
+.hero h1 {
 
-    max-width: 850px;
+    font-size:
+        clamp(4rem, 10vw, 9rem);
 
-    margin-bottom: 18px;
+    line-height: 0.82;
 
-    font-size: clamp(45px, 8vw, 82px);
+    letter-spacing: -0.07em;
 
-    line-height: 0.95;
+    font-weight: 900;
 
-    letter-spacing: -3px;
-
-    font-weight: 800;
 }
 
 
-.hero p:last-child {
+.hero-text {
 
-    max-width: 600px;
+    margin-top: 45px;
 
-    color: var(--grey);
+    font-size: 1.4rem;
 
-    font-size: 18px;
+    max-width: 500px;
 
-    line-height: 1.6;
+}
+
+
+.hero-line {
+
+    width: 100px;
+
+    height: 8px;
+
+    background: var(--yellow);
+
+    margin-top: 35px;
+
 }
 
 
 /* =========================================================
-   ACTION GRID
+   ACTIONS
    ========================================================= */
 
 .actions {
 
-    display: grid;
+    max-width: 1400px;
 
-    grid-template-columns: repeat(3, 1fr);
+    margin: auto;
 
-    gap: 18px;
+    padding:
+        100px 5vw;
+
 }
 
 
-/* =========================================================
-   ACTION CARDS
-   ========================================================= */
+.section-heading {
+
+    margin-bottom: 50px;
+
+}
+
+
+.section-heading h2 {
+
+    font-size:
+        clamp(2.8rem, 6vw, 5.5rem);
+
+    line-height: 0.9;
+
+    letter-spacing: -0.06em;
+
+}
+
+
+.action-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+
+}
+
 
 .action-card {
 
     position: relative;
 
-    min-height: 250px;
+    min-height: 420px;
+
+    border: none;
+
+    padding: 35px;
+
+    text-align: left;
 
     display: flex;
 
@@ -244,137 +358,128 @@ body {
 
     justify-content: space-between;
 
-    padding: 28px;
-
-    border: 1px solid var(--border);
-
-    border-radius: 2px;
-
-    background: var(--white);
-
-    text-align: left;
-
-    cursor: pointer;
-
-    overflow: hidden;
-
     transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        border-color 0.18s ease;
-}
+        transform 0.2s ease;
 
-
-/*
-    Blue accent block.
-*/
-
-.action-card::after {
-
-    content: "";
-
-    position: absolute;
-
-    right: 0;
-    bottom: 0;
-
-    width: 0;
-    height: 6px;
-
-    background: var(--blue);
-
-    transition: width 0.2s ease;
 }
 
 
 .action-card:hover {
 
-    transform: translateY(-5px);
+    transform:
+        translateY(-8px);
 
-    border-color: var(--blue);
-
-    box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.09);
 }
 
 
-.action-card:hover::after {
+.action-blue {
 
-    width: 100%;
+    background: var(--blue);
+
+    color: var(--white);
+
 }
 
 
-/* =========================================================
-   ACTION ICON
-   ========================================================= */
+.action-yellow {
 
-.action-icon {
+    background: var(--yellow);
 
-    width: 58px;
-    height: 58px;
+    color: var(--black);
 
-    display: flex;
+}
 
-    align-items: center;
-    justify-content: center;
 
-    margin-bottom: 30px;
+.action-black {
 
-    background: var(--blue-light);
+    background: var(--black);
 
-    color: var(--blue);
+    color: var(--white);
 
-    border-radius: 50%;
+}
 
-    font-size: 24px;
 
-    font-weight: bold;
+.card-number {
+
+    font-size: 0.75rem;
+
+    font-weight: 900;
+
 }
 
 
 .action-card h3 {
 
-    margin-bottom: 8px;
+    font-size:
+        clamp(2.2rem, 4vw, 4rem);
 
-    font-size: 24px;
+    line-height: 0.9;
 
-    line-height: 1.1;
+    letter-spacing: -0.06em;
 
-    font-weight: 800;
 }
 
 
 .action-card p {
 
-    max-width: 240px;
+    max-width: 300px;
 
-    color: var(--grey);
-
-    font-size: 14px;
+    font-size: 1rem;
 
     line-height: 1.5;
+
 }
 
 
-.arrow {
+.card-arrow {
 
-    position: absolute;
+    font-size: 2rem;
 
-    right: 25px;
-    bottom: 23px;
+    font-weight: 900;
 
-    color: var(--blue);
+    align-self: flex-end;
 
-    font-size: 25px;
-
-    transition:
-        transform 0.2s ease;
 }
 
 
-.action-card:hover .arrow {
+/* =========================================================
+   STATEMENT
+   ========================================================= */
 
-    transform: translateX(5px);
+.statement {
+
+    background: var(--black);
+
+    color: var(--white);
+
+    padding:
+        100px 5vw;
+
+}
+
+
+.statement p {
+
+    color: var(--yellow);
+
+    font-weight: 900;
+
+    letter-spacing: 0.15em;
+
+    margin-bottom: 20px;
+
+}
+
+
+.statement h2 {
+
+    font-size:
+        clamp(3rem, 8vw, 8rem);
+
+    line-height: 0.85;
+
+    letter-spacing: -0.07em;
+
 }
 
 
@@ -384,271 +489,249 @@ body {
 
 .form-page {
 
-    max-width: 720px;
+    max-width: 1400px;
 
     margin: auto;
-}
 
+    padding:
+        90px 5vw 120px;
 
-.hidden {
+    display: grid;
 
-    display: none !important;
-}
+    grid-template-columns:
+        0.8fr 1.2fr;
 
+    gap: 100px;
 
-/* =========================================================
-   BACK BUTTON
-   ========================================================= */
-
-.back-button {
-
-    margin-bottom: 45px;
-
-    padding: 8px 0;
-
-    border: none;
-
-    background: transparent;
-
-    color: var(--blue);
-
-    font-size: 14px;
-
-    font-weight: 700;
-
-    cursor: pointer;
-}
-
-
-.back-button:hover {
-
-    text-decoration: underline;
-}
-
-
-/* =========================================================
-   FORM HEADER
-   ========================================================= */
-
-.form-header {
-
-    margin-bottom: 38px;
 }
 
 
 .form-header h2 {
 
-    margin-bottom: 10px;
+    font-size:
+        clamp(3rem, 6vw, 6rem);
 
-    font-size: clamp(40px, 6vw, 58px);
+    line-height: 0.85;
 
-    line-height: 1;
+    letter-spacing: -0.07em;
 
-    letter-spacing: -2px;
+    margin-bottom: 30px;
 
-    font-weight: 800;
 }
 
 
-.form-header p:last-child {
+.form-header > p:last-child {
 
-    color: var(--grey);
+    max-width: 420px;
 
-    font-size: 16px;
+    color: var(--grey-dark);
+
+    line-height: 1.6;
+
 }
 
 
-/* =========================================================
-   FORM
-   ========================================================= */
-
-form {
+.maker-form {
 
     display: flex;
 
     flex-direction: column;
 
-    gap: 24px;
+    gap: 12px;
+
 }
 
 
-label {
+.maker-form label {
 
-    display: flex;
+    margin-top: 20px;
 
-    flex-direction: column;
+    font-size: 0.7rem;
 
-    gap: 9px;
+    font-weight: 900;
 
-    color: var(--dark-grey);
+    letter-spacing: 0.14em;
 
-    font-size: 14px;
-
-    font-weight: 700;
 }
 
 
-/* =========================================================
-   INPUTS
-   ========================================================= */
-
-input,
-select,
-textarea {
+.maker-form input,
+.maker-form textarea,
+.maker-form select {
 
     width: 100%;
 
-    padding: 15px 16px;
-
-    border: 2px solid var(--border);
-
-    border-radius: 2px;
+    border:
+        2px solid var(--black);
 
     background: var(--white);
 
-    color: var(--black);
-
-    font-family: inherit;
-
-    font-size: 15px;
+    padding: 17px;
 
     outline: none;
 
-    transition:
-        border-color 0.15s ease,
-        background 0.15s ease;
+    border-radius: 0;
+
 }
 
 
-input:hover,
-select:hover,
-textarea:hover {
-
-    border-color: #b8bec4;
-}
-
-
-input:focus,
-select:focus,
-textarea:focus {
-
-    border-color: var(--blue);
-
-    background: #fbfdff;
-}
-
-
-textarea {
-
-    min-height: 130px;
+.maker-form textarea {
 
     resize: vertical;
 
-    line-height: 1.55;
 }
 
 
-/* =========================================================
-   PRIMARY BUTTON
-   ========================================================= */
+.maker-form input:focus,
+.maker-form textarea:focus,
+.maker-form select:focus {
 
-.primary-button {
+    border-color: var(--blue);
 
-    width: 100%;
+}
 
-    margin-top: 8px;
 
-    padding: 17px 22px;
+.submit-button {
+
+    margin-top: 35px;
 
     border: none;
-
-    border-radius: 2px;
 
     background: var(--blue);
 
     color: var(--white);
 
-    font-family: inherit;
+    padding: 20px 28px;
 
-    font-size: 15px;
+    font-weight: 900;
 
-    font-weight: 800;
+    letter-spacing: 0.08em;
 
-    cursor: pointer;
+    text-align: left;
 
     transition:
-        background 0.15s ease,
-        transform 0.15s ease;
+        background 0.2s ease,
+        transform 0.2s ease;
+
 }
 
 
-.primary-button:hover {
+.submit-button:hover {
 
     background: var(--blue-dark);
 
-    transform: translateY(-2px);
-}
+    transform:
+        translateX(5px);
 
-
-.primary-button:active {
-
-    transform: translateY(0);
 }
 
 
 /* =========================================================
-   SUCCESS PAGE
+   CONTENT PAGES
+   ========================================================= */
+
+.content-page {
+
+    max-width: 1400px;
+
+    margin: auto;
+
+    min-height: 75vh;
+
+    padding:
+        100px 5vw;
+
+}
+
+
+.content-page h2 {
+
+    font-size:
+        clamp(4rem, 9vw, 9rem);
+
+    line-height: 0.82;
+
+    letter-spacing: -0.07em;
+
+    margin-bottom: 50px;
+
+}
+
+
+.large-text {
+
+    max-width: 650px;
+
+    font-size: 1.5rem;
+
+    line-height: 1.5;
+
+}
+
+
+/* =========================================================
+   SUCCESS
    ========================================================= */
 
 .success-page {
 
-    max-width: 600px;
+    min-height: 75vh;
 
-    margin: 100px auto;
+    max-width: 900px;
 
-    text-align: center;
+    margin: auto;
+
+    padding:
+        120px 5vw;
+
 }
 
 
-.success-icon {
+.success-symbol {
 
-    width: 80px;
-    height: 80px;
+    width: 70px;
+
+    height: 70px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    margin: 0 auto 28px;
+    background: var(--yellow);
 
-    border-radius: 50%;
+    font-size: 2rem;
 
-    background: var(--blue-light);
+    font-weight: 900;
 
-    color: var(--blue);
+    margin-bottom: 35px;
 
-    font-size: 35px;
-
-    font-weight: bold;
 }
 
 
 .success-page h2 {
 
-    margin-bottom: 12px;
+    font-size:
+        clamp(4rem, 10vw, 9rem);
 
-    font-size: 45px;
+    line-height: 0.8;
 
-    letter-spacing: -1.5px;
-}
-
-
-.success-page p {
+    letter-spacing: -0.07em;
 
     margin-bottom: 30px;
 
-    color: var(--grey);
+}
+
+
+.success-page p:not(.eyebrow) {
+
+    font-size: 1.3rem;
+
+    max-width: 600px;
+
+    line-height: 1.5;
+
 }
 
 
@@ -656,27 +739,27 @@ textarea {
    FOOTER
    ========================================================= */
 
-footer {
+.site-footer {
 
-    padding: 30px 20px;
+    background: var(--black);
 
-    border-top: 1px solid var(--border);
+    color: var(--white);
 
-    text-align: center;
+    padding:
+        25px 5vw;
 
-    color: var(--grey);
+    display: flex;
 
-    font-size: 12px;
-}
+    justify-content: space-between;
 
+    gap: 20px;
 
-footer::after {
+    font-size: 0.65rem;
 
-    content: "  *";
+    font-weight: 900;
 
-    color: var(--blue);
+    letter-spacing: 0.12em;
 
-    font-weight: bold;
 }
 
 
@@ -686,85 +769,74 @@ footer::after {
 
 @media (max-width: 800px) {
 
-    .actions {
+
+    .menu-toggle {
+
+        display: block;
+
+    }
+
+
+    .main-nav {
+
+        display: none;
+
+        position: absolute;
+
+        top: 100%;
+
+        left: 0;
+
+        right: 0;
+
+        background: var(--white);
+
+        padding: 25px 5vw;
+
+        flex-direction: column;
+
+        gap: 20px;
+
+        border-bottom:
+            1px solid var(--border);
+
+    }
+
+
+    .main-nav.open {
+
+        display: flex;
+
+    }
+
+
+    .action-grid {
 
         grid-template-columns: 1fr;
+
     }
 
 
     .action-card {
 
-        min-height: 180px;
+        min-height: 330px;
+
     }
 
 
-    .hero h2 {
+    .form-page {
 
-        letter-spacing: -2px;
-    }
-}
+        grid-template-columns: 1fr;
 
+        gap: 50px;
 
-@media (max-width: 600px) {
-
-    .topbar {
-
-        padding: 18px 5%;
     }
 
 
-    .container {
+    .site-footer {
 
-        width: 88%;
+        flex-direction: column;
 
-        padding: 50px 0 70px;
     }
 
-
-    .hero {
-
-        margin-bottom: 40px;
-    }
-
-
-    .hero::before {
-
-        left: -15px;
-
-        width: 5px;
-    }
-
-
-    .hero h2 {
-
-        font-size: 48px;
-
-        letter-spacing: -2px;
-    }
-
-
-    .hero p:last-child {
-
-        font-size: 16px;
-    }
-
-
-    .action-card {
-
-        min-height: 190px;
-
-        padding: 23px;
-    }
-
-
-    .form-header h2 {
-
-        font-size: 40px;
-    }
-
-
-    .success-page h2 {
-
-        font-size: 38px;
-    }
 }
